@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React ,{useMemo} from 'react';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import QQMusic from './pages/QQMusic';
+import UserInfo from './pages/QQMusic/userInfo';
+import Songlist from './pages/QQMusic/Songlist'
+import Info from './pages/QQMusic/Info'
 
-function App() {
+function Router() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/qqmusic" element={<QQMusic/>}></Route>
+        <Route path="/userinfo" element={<UserInfo/>}>
+          <Route path="/userinfo/songlist/:listId" element={<Songlist/>}></Route>
+          <Route path="/userinfo/info" element={<Info/>}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
+}
+
+const App = () => {
+  return <Router/>
 }
 
 export default App;
