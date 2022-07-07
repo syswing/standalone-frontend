@@ -72,10 +72,6 @@ const UserInfo = () => {
 	const [userInfoData, setUserInfoData] = useState<any>({})
 	const navigate = useNavigate()
 
-	const [open, setOpen] = useState(true)
-
-	const [currentSong, setCurrentSong] = useState<any>({})
-
 	useEffect(() => {
 		const fetchUserInfo = async () => {
 			const result = await action({

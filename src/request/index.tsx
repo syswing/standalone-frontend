@@ -19,7 +19,7 @@ const config: AxiosConfig = {
     'X-Requested-With':'XMLHttpRequest',
     
   },
-  baseURL: '/api',
+  baseURL: process.env.NODE_ENV === 'development' ? '/api' : process.env.REACT_APP_URL_ENV as string,
   withCredentials:true
   // validateStatus:(status) => {
 
