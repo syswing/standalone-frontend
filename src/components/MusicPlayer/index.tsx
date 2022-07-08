@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
@@ -12,7 +12,7 @@ import VolumeUpRounded from '@mui/icons-material/VolumeUpRounded';
 import VolumeDownRounded from '@mui/icons-material/VolumeDownRounded';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import action from '../../request/action';
 
 const TinyText = styled(Typography)({
@@ -25,10 +25,10 @@ const TinyText = styled(Typography)({
 const MusicPlayer = () => {
 
 	const [position, setPosition] = React.useState(32); 																				// 播放的位置
-	const [ audioUrl,setAudioUrl ] = React.useState< string | undefined>(undefined)							// 音频地址
+	const [audioUrl, setAudioUrl] = React.useState<string | undefined>(undefined)							// 音频地址
 	const [paused, setPaused] = React.useState(true);																						// 是否是暂停状态
 
-	const currentMusic = useSelector((state:any) => state.currentMusicReducer.currentMusic)
+	const currentMusic = useSelector((state: any) => state.currentMusicReducer.currentMusic)
 
 	const duration = 200; // seconds
 	const theme = useTheme();
@@ -43,13 +43,17 @@ const MusicPlayer = () => {
 		return `${minute}:${secondLeft < 10 ? `0${secondLeft}` : secondLeft}`;
 	}
 
+	useEffect(() => {
+		setPaused(true)
+	}, [currentMusic])
+
 	const play = async () => {
 		console.log(currentMusic)
 		console.log('play')
 		const dataUrl = await action({
-			path:'/QQMusic/songurl',
-			params:{
-				songmid:currentMusic.songmid
+			path: '/QQMusic/songurl',
+			params: {
+				songmid: currentMusic.songmid
 			}
 		})
 		setAudioUrl(dataUrl.data[currentMusic.songmid])
@@ -61,7 +65,7 @@ const MusicPlayer = () => {
 	}
 
 	return <Box mt={2}>
-		<audio src={audioUrl} autoPlay/> 
+		<audio src={audioUrl} autoPlay />
 		<Box sx={{ ml: 1.5, minWidth: 0 }}>
 			<Grid container spacing={2}>
 				<Grid item xs={8}>
