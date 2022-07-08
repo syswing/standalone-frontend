@@ -1,5 +1,7 @@
 FROM nginx
 
+FROM node:lts-alpine
+
 WORKDIR ~/standalone-frontend/
 
 COPY . .
