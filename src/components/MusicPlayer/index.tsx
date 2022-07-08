@@ -24,12 +24,14 @@ const TinyText = styled(Typography)({
 
 const MusicPlayer = () => {
 
+	const [position, setPosition] = React.useState(32); 																				// 播放的位置
+	const [ audioUrl,setAudioUrl ] = React.useState< string | undefined>(undefined)							// 音频地址
+	const [paused, setPaused] = React.useState(true);																						// 是否是暂停状态
+
 	const currentMusic = useSelector((state:any) => state.currentMusicReducer.currentMusic)
-	const [position, setPosition] = React.useState(32);
-	const [ audioUrl,setAudioUrl ] = React.useState< string | undefined>(undefined)
+
 	const duration = 200; // seconds
 	const theme = useTheme();
-	const [paused, setPaused] = React.useState(true);
 	const mainIconColor = theme.palette.mode === 'dark' ? '#fff' : '#000';
 	const lightIconColor =
 		theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
@@ -51,7 +53,7 @@ const MusicPlayer = () => {
 			}
 		})
 		setAudioUrl(dataUrl.data[currentMusic.songmid])
-
+		setPosition(0)
 	}
 
 	const pause = () => {
