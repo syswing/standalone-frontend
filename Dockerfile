@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM nginx
 
 WORKDIR ~/standalone-frontend/
 
@@ -8,8 +8,6 @@ RUN npm install
 
 RUN npm run build
 
-RUN npm install -g serve
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 6666
-
-CMD ["serve", "-s" ,"build","-p","6666"]
