@@ -79,7 +79,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "docker:build":"docker build -t standalone_frontend:1.0 .",
-    "docker:run":"docker run --name standalone_frontend -p 6666:6666 -d standalone_frontend:1.0"
+    "docker:run":"docker run --name standalone_frontend -p 7777:7777 -d standalone_frontend:1.0"
   },
   "eslintConfig": {
     "extends": [
