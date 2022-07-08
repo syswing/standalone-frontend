@@ -11,3 +11,4 @@ services:
     # network_mode: "host"
     build:
       context: ./
+    command: nginx -g "daemon off;"
