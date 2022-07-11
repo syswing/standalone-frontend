@@ -10,7 +10,7 @@ interface AxiosConfig {
   withCredentials:boolean;
   // validateStatus:any;
 }
-
+console.log('当前env',process.env.REACT_APP_URL_ENV)
 const config: AxiosConfig = {
   timeout: 600000,
   headers: {
