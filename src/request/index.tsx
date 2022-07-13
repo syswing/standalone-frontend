@@ -10,7 +10,6 @@ interface AxiosConfig {
   withCredentials:boolean;
   // validateStatus:any;
 }
-console.log('当前env',process.env.REACT_APP_URL_ENV)
 const config: AxiosConfig = {
   timeout: 600000,
   headers: {
@@ -19,7 +18,7 @@ const config: AxiosConfig = {
     'X-Requested-With':'XMLHttpRequest',
     
   },
-  baseURL: process.env.NODE_ENV === 'development' ? '/api' : process.env.REACT_APP_URL_ENV as string,
+  baseURL: 'http://172.18.0.1:3000',
   withCredentials:true
   // validateStatus:(status) => {
 
