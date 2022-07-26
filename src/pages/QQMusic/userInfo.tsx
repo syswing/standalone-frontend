@@ -29,6 +29,7 @@ import { Outlet } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import ListIcon from '@mui/icons-material/List';
 import MusicPlayer from '../../components/MusicPlayer';
+import * as colors from '@mui/material/colors';
 
 // 播放器主界面
 
@@ -68,6 +69,21 @@ const UserNav = styled(List)<{ component?: React.ElementType }>({
 	},
 });
 
+const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType, color: string }>(({ color }) => {
+	return {
+		'& .MuiListItemButton-root': {
+			borderRadius: '11px',
+			transition: 'all ease .5s',
+			'&:hover': {
+				color: '#fff',
+				transform: 'translateX(-35px)',
+				backgroundColor: colors[`${color}`][400],
+			}
+		}
+	}
+
+})
+
 const UserInfo = () => {
 	const [userInfoData, setUserInfoData] = useState<any>({})
 	const navigate = useNavigate()
@@ -95,24 +111,19 @@ const UserInfo = () => {
 					},
 				},
 			},
-			palette: {
-				// mode: 'dark',
-				// primary: { main: 'rgb(102, 157, 246)' },
-				// background: { paper: 'rgb(5, 30, 52)' },
-			},
 		})}
 	>
 		<Box sx={{
 			boxShadow: 2,
 			padding: '10px',
 			width: '90%',
-			margin: '40px'
+			margin: '40px',
+			borderRadius: 3
 		}}>
 			<Grid container spacing={0}>
 				<Grid item xs={2}>
-
 					<Paper elevation={0} sx={{ maxWidth: 256 }}>
-						<UserNav component="nav" disablePadding>
+						<StyledListItemButton color='orange'>
 							<ListItemButton component="a" onClick={() => {
 								navigate(`/userinfo/info`, {
 									replace: true
@@ -131,7 +142,8 @@ const UserInfo = () => {
 									}}
 								/>
 							</ListItemButton>
-							<Divider />
+						</StyledListItemButton>
+						<StyledListItemButton color="blue">
 							<ListItemButton
 								onClick={() => {
 									navigate(`/userinfo/songlist/${userInfoData?.mymusic && userInfoData?.mymusic[0]?.id}`, {
@@ -152,7 +164,8 @@ const UserInfo = () => {
 									}}
 								/>
 							</ListItemButton>
-							<Divider />
+						</StyledListItemButton>
+						<StyledListItemButton color="purple">
 							<ListItemButton
 								onClick={() => {
 									navigate(`/userinfo/songlist/${userInfoData?.mymusic && userInfoData?.mymusic[0]?.id}`, {
@@ -173,14 +186,14 @@ const UserInfo = () => {
 									}}
 								/>
 							</ListItemButton>
-						</UserNav>
+						</StyledListItemButton>
 					</Paper>
 				</Grid>
 				<Grid item xs={10}>
-					<MusicPlayer />
 					<Outlet />
 				</Grid>
 			</Grid>
+			<MusicPlayer />
 		</Box>
 	</ThemeProvider>
 

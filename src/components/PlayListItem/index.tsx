@@ -5,27 +5,38 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack'
 import {setSongInfo} from '../../store/currentMusic'
 import { useDispatch } from 'react-redux';
+import { blue } from '@mui/material/colors';
 
 const PlayListItem = ({songInfo}:any) => {
 	// '#03a9f4'
 	const dispatch = useDispatch()
 	console.log('renderPlayListItem')
 	return <ListItem sx={{
-		'&:hover, &:focus': {
-			bgcolor:  '#cfe8fc',
+		overflow:'hidden',
+		'&:before':{
+			content: "''",
+			width: '200%',
+			height: '200%',
+			background: 'rgba(255, 255, 255, .2)',
+			transform: 'rotate(-45deg)',
+			position: 'absolute',
+			top: '-10%',
+			left: '-180%',	
+			transition: '1.5s ease-in-out',
+		},
+		'&:hover': {
+			bgcolor:  blue[400],
 			color:'#fff',
 			boxShadow:2,
 			'& svg:first-of-type': {
-				// transform: 'translateX(-4px) rotate(-20deg)',
 				color:'#fff'
 			},
-			'& svg:last-of-type': {
-				// right: 0,
-				// opacity: 1,
-			},
+			'&:before':{
+				left:'60%'
+			}
 		},
 	}} key={songInfo.songmid}>
-		<ListItemText  primary={`${songInfo.songname}`} />
+		<ListItemText primary={`${songInfo.songname}`} />
 		<ListItemIcon onClick={() => {
 			dispatch(setSongInfo(songInfo))
 			return 

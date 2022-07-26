@@ -68,19 +68,7 @@ const MusicPlayer = () => {
 		<audio src={audioUrl} autoPlay />
 		<Box sx={{ ml: 1.5, minWidth: 0 }}>
 			<Grid container spacing={2}>
-				<Grid item xs={8}>
-					<Typography variant="caption" color="text.secondary" fontWeight={500}>
-						{currentMusic?.albumdesc}
-					</Typography>
-					<Typography noWrap>
-						<b>{currentMusic?.albumname}</b>
-					</Typography>
-					<Typography noWrap letterSpacing={-0.25}>
-						{currentMusic?.songname} &mdash; {currentMusic?.singer?.map(singerItem => {
-							return singerItem.name + ' '
-						})}
-					</Typography>
-				</Grid>
+				
 				<Grid item xs={4}>
 					<Box
 						sx={{
