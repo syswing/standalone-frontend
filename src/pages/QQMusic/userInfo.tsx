@@ -81,7 +81,6 @@ const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementT
 			}
 		}
 	}
-
 })
 
 const UserInfo = () => {

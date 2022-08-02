@@ -1,5 +1,11 @@
 export default {
-	'adventure': {},
+	'adventure': {
+		'scan': {
+			url: '/adventure/scan',
+			method: 'GET',
+			data:{}
+		}
+	},
 	'QQMusic': {
 		'setUserCookie': {
 			url: "/QQMusic/setUserCookie",
@@ -22,7 +28,7 @@ export default {
 				id: "1812298100"
 			}
 		},
-		'songurl':{
+		'songurl': {
 			url: '/QQMusic/songurl',
 			method: 'GET',
 			data: {
