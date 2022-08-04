@@ -4,6 +4,13 @@ export default {
 			url: '/adventure/scan',
 			method: 'GET',
 			data:{}
+		},
+		'read':{
+			url: '/adventure/read',
+			method: 'GET',
+			data:{
+				filePath:''
+			}
 		}
 	},
 	'QQMusic': {

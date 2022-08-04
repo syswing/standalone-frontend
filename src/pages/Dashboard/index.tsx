@@ -7,10 +7,10 @@ import { Outlet } from 'react-router-dom';
 
 const Dashboard = () => {
 	return <Container sx={{
-		maxHeight:'calc( 100vh - 160px )',
+		// maxHeight:'calc( 100vh - 160px )',
 		marginTop:'80px',
-		marginBottom:'80px'
-	}} maxWidth="md">
+		// marginBottom:'80px',
+	}}>
 		<Grid container spacing={2}>
 			<Grid item xs={4}>
 	      <NavBar/>

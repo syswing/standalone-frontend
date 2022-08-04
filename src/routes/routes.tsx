@@ -6,13 +6,18 @@ import UserInfo from '../pages/QQMusic/userInfo'
 import Info from '../pages/QQMusic/Info'
 import Blog from '../pages/Dashboard/Blog'
 import About from '../pages/Dashboard/About'
+import BlogMd from '../pages/Dashboard/Blog/BlogMd'
 
 const routes = [{
 	path: "/",
 	element: <Dashboard />,
 	children: [{
 		path:"/blog",
-		element:<Blog/>
+		element:<Blog/>,
+		children:[{
+			path:'/blog/:mdName',
+			element:<BlogMd/>
+		}]
 	},{
 		path:"/about",
 		element:<About/>

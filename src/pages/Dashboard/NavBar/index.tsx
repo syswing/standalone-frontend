@@ -50,7 +50,7 @@ const NavBar = () => {
 				<StyledListItemButton color={'blue'}>
 					<ListItemText
 						sx={{ my: 0 }}
-						primary={'日志'}
+						primary={'测试列表1'}
 						primaryTypographyProps={{
 							fontSize: 14,
 							fontWeight: 'medium',
@@ -66,7 +66,7 @@ const NavBar = () => {
 				<StyledListItemButton color={'blue'}>
 					<ListItemText
 						sx={{ my: 0 }}
-						primary={'关于我'}
+						primary={'测试列表2'}
 						primaryTypographyProps={{
 							fontSize: 14,
 							fontWeight: 'medium',
