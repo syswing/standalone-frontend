@@ -3,31 +3,63 @@ import { Box, ListItemText } from '@mui/material'
 import ListItemButton from '@mui/material/ListItemButton';
 import * as colors from '@mui/material/colors';
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useMatch,useResolvedPath } from 'react-router-dom'
 import shadows from '@mui/material/styles/shadows';
 
-const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType, color: string }>(({ color }) => {
-	return {
-		borderRadius: '11px',
+const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType, color: string,matched?:any }>(({ color,matched }) => {
+	const matchedStyle = matched ? {
+		color: '#fff',
+		transform: 'translateX(-20px)',
+		backgroundColor: colors[`${color}`][400],
+		boxShadow: shadows[2],
+	} : {}
+	const styles = {
 		transition: 'all ease .5s',
+		...matchedStyle,
 		'&:hover': {
 			color: '#fff',
 			transform: 'translateX(-20px)',
 			backgroundColor: colors[`${color}`][400],
-			boxShadow: shadows[2]
 		},
 		'& > a':{    
 			textDecoration: 'none',
 			color: 'currentColor'
 		}
 	}
+	return styles
 })
+
+const MatchedLink = ({to,primary}) => {
+	// 匹配子路由
+	const match = useMatch({
+		path:to,
+		caseSensitive:false, // 大小写敏感
+		end:false //是否全匹配
+	})
+	return <Link style={{
+		textDecoration: 'none',
+		color: 'currentColor',
+		marginBottom:'20px'
+	}} to={to}>
+		<StyledListItemButton matched={match ? 1:0} color={'blue'}>
+			<ListItemText
+				sx={{ my: 0 }}
+				primary={primary}
+				primaryTypographyProps={{
+					fontSize: 14,
+					fontWeight: 'medium',
+					letterSpacing: 0,
+				}}
+			/>
+		</StyledListItemButton>
+	</Link>
+}
 
 const NavBar = () => {
 
-	const location = useLocation();
+	// const match = useMatch('/about')
 
-	console.log('location',location)
+	// console.log('match',match)
 
 	return <ThemeProvider
 		theme={createTheme({
@@ -43,39 +75,8 @@ const NavBar = () => {
 		<Box sx={{
 			height:"100vh"
 		}}>
-			<Link style={{
-				textDecoration: 'none',
-				color: 'currentColor'
-			}} to={'/blog'}>
-				<StyledListItemButton color={'blue'}>
-					<ListItemText
-						sx={{ my: 0 }}
-						primary={'测试列表1'}
-						primaryTypographyProps={{
-							fontSize: 14,
-							fontWeight: 'medium',
-							letterSpacing: 0,
-						}}
-					/>
-				</StyledListItemButton>
-			</Link>
-			<Link style={{
-				textDecoration: 'none',
-				color: 'currentColor'
-			}} to={'/about'}>
-				<StyledListItemButton color={'blue'}>
-					<ListItemText
-						sx={{ my: 0 }}
-						primary={'测试列表2'}
-						primaryTypographyProps={{
-							fontSize: 14,
-							fontWeight: 'medium',
-							letterSpacing: 0,
-						}}
-					/>
-				</StyledListItemButton>
-			</Link>
-
+			<MatchedLink to={'/blog'} primary={'网志'}/>
+			{/* <MatchedLink to={'/about'} primary={'关于我'}/> */}
 		</Box>
 	</ThemeProvider>
 }

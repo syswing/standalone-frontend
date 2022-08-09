@@ -16,7 +16,7 @@ const routes = [{
 		element:<Blog/>,
 		children:[{
 			path:'/blog/:mdName',
-			element:<BlogMd/>
+			element:<BlogMd/>,
 		}]
 	},{
 		path:"/about",

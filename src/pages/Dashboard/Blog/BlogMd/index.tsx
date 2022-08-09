@@ -8,10 +8,9 @@ import { setBlogMd } from '../../../../store/currentBlog';
 const BlogMd = () => {
 	const location = useLocation() as any
 	const dispatch = useDispatch()
-	const path = location.state.path
+	const path = location?.state?.path
 	const currentBlog = useSelector((state:any) => state.currentBlogReducer.currentBlog)
-	console.log('currentBlog.data',currentBlog)
-	useEffect(() => {
+		useEffect(() => {
 		const fetchBlogMd = async (path) => {
 			const result = await action({
 				path:'/adventure/read',
@@ -24,10 +23,13 @@ const BlogMd = () => {
 		if(path){
 			fetchBlogMd(path)
 		}
+		return () => {
+			dispatch(setBlogMd({}))
+		}
 	},[path])
 	return <div style={{
 		padding:20
-	}} dangerouslySetInnerHTML={{__html:currentBlog}}></div>
+	}} dangerouslySetInnerHTML={{__html:currentBlog.dom}}></div>
 }
 
 export default BlogMd
