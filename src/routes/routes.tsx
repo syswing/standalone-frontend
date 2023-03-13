@@ -7,20 +7,28 @@ import Info from '../pages/QQMusic/Info'
 import Blog from '../pages/Dashboard/Blog'
 import About from '../pages/Dashboard/About'
 import BlogMd from '../pages/Dashboard/Blog/BlogMd'
+import Sakura from '../pages/Dashboard/Sakura'
+import BackEnd from '../pages/BackEnd'
 
 const routes = [{
 	path: "/",
 	element: <Dashboard />,
 	children: [{
-		path:"/blog",
+		path:"blog",
 		element:<Blog/>,
 		children:[{
-			path:'/blog/:mdName',
+			path:':mdName',
 			element:<BlogMd/>,
 		}]
 	},{
-		path:"/about",
+		path:"about",
 		element:<About/>
+	},{
+		path:'player',
+		element:<About/>
+	},{
+		path:'sakura',
+		element:<Sakura/>
 	}]
 }, {
 	path: "/qqmusic",
@@ -35,6 +43,9 @@ const routes = [{
 		path:'/userinfo/info',
 		element:<Info/>
 	}]
+},{
+	path:'/backend',
+	element:<BackEnd/>
 }]
 
 export default routes

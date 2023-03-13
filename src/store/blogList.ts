@@ -12,13 +12,13 @@ export const blogSlice = createSlice({
 			const reduceDir = (dirList) => {
 				if(dirList.childF.length){
 					arrTemp = arrTemp.concat(dirList.childF)
-				}
+				} 
 				if(dirList.childD.length){
 					for(let i = 0 ;i<dirList.childD.length;i++){
 						reduceDir(dirList.childD[i])
 					}
 				}
-			}
+			};
 			reduceDir(dirData)
       state.blogList = arrTemp
     }

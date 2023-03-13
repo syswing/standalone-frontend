@@ -5,11 +5,13 @@ import { setBlogList } from '../../../store/blogList';
 import { styled } from '@mui/material/styles';
 import { List, ListItem, ListItemText, Typography, Divider, Box } from '@mui/material';
 import { useNavigate, useOutlet, Outlet } from 'react-router-dom'
+import shadows from '@mui/material/styles/shadows';
+
 const StyledListItem = styled(ListItem)<any>(() => {
 	return {
 		transition: 'all .5s ease',
 		'&:hover': {
-			background: '#e0e0e0'
+			boxShadow: shadows[3],
 		},
 	}
 })
@@ -63,7 +65,7 @@ const Blog = () => {
 							}
 						/>
 					</StyledListItem>
-					<Divider variant="middle" />
+					{/* <Divider variant="middle" /> */}
 				</Box>
 			})}
 		</List>}

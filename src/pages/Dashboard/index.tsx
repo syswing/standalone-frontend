@@ -6,11 +6,12 @@ import PageContainer from './PageContainer'
 import MarkdownToc from './MarkdownToc'
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import {useParams} from 'react-router-dom'
 
 const Dashboard = () => {
 	const currentBlog = useSelector((state:any) => state.currentBlogReducer.currentBlog)
 
-	console.log('dashboard',currentBlog)
+	const { mdName } = useParams();
 
 	return <Container sx={{
 		marginTop:'80px',
@@ -23,7 +24,7 @@ const Dashboard = () => {
 	      <PageContainer element={<Outlet/>}/>
 	    </Grid>
 			<Grid item xs={3}>
-				{!!Object.keys(currentBlog).length && <MarkdownToc/> }
+				{mdName && <MarkdownToc/> }
 	    </Grid>
 		</Grid>
 	</Container>
