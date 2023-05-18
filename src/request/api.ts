@@ -11,6 +11,14 @@ export default {
 			data:{
 				filePath:''
 			}
+		},
+		'list':{
+			url: '/adventure/list',
+			method: 'GET',
+			data:{
+				page:'1',
+				size:'10'
+			}
 		}
 	},
 	'QQMusic': {

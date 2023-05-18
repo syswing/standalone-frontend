@@ -28,7 +28,7 @@ const Blog = () => {
 	useEffect(() => {
 		const fetchArticleList = async () => {
 			const result = await action({
-				path: '/adventure/scan',
+				path: '/adventure/list',
 			})
 			dispatch(setBlogList(result.data))
 		}
@@ -44,7 +44,7 @@ const Blog = () => {
 					<StyledListItem alignItems="flex-start" onClick={() => {
 						navigate(`/blog/${blog.name}`, {
 							replace: true, state: {
-								path: blog.path
+								path: blog.name
 							}
 						})
 					}}>
@@ -60,7 +60,7 @@ const Blog = () => {
 									>
 										syswing
 									</Typography>
-									<span>{`发布于：${blog.create_time}`}</span>
+									<span>{`发布于：${blog.create_at}`}</span>
 								</React.Fragment>
 							}
 						/>

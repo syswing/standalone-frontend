@@ -1,8 +1,7 @@
 import React from 'react'
-import Layout from './Layout'
-
+// 主页
 const BackEnd = () => {
-	return <Layout/>
+	return <>BackEnd</>
 }
 
 export default BackEnd

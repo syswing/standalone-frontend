@@ -9,10 +9,12 @@ import About from '../pages/Dashboard/About'
 import BlogMd from '../pages/Dashboard/Blog/BlogMd'
 import Sakura from '../pages/Dashboard/Sakura'
 import BackEnd from '../pages/BackEnd'
+import Study from '../pages/Dashboard/Study'
+import Layout from '../pages/Layout'
 
 const routes = [{
 	path: "/",
-	element: <Dashboard />,
+	element: <Layout />,
 	children: [{
 		path:"blog",
 		element:<Blog/>,
@@ -29,6 +31,9 @@ const routes = [{
 	},{
 		path:'sakura',
 		element:<Sakura/>
+	},{
+		path:'study',
+		element:<Study/>
 	}]
 }, {
 	path: "/qqmusic",
@@ -43,9 +48,6 @@ const routes = [{
 		path:'/userinfo/info',
 		element:<Info/>
 	}]
-},{
-	path:'/backend',
-	element:<BackEnd/>
 }]
 
 export default routes

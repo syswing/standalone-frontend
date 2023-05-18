@@ -63,6 +63,7 @@ client.interceptors.response.use(
   (response): Promise<any> => {
     const { data } = response
     if (data.result === 0 || data.result === 200 || data.result === 405 || data.result === 100) {
+      console.log('返回数据->',data)
       return Promise.resolve(data)
     } else {
       console.log('result异常->',data)

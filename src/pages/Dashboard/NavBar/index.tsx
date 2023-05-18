@@ -75,11 +75,11 @@ const NavBar = () => {
 		<Box sx={{
 			height:"100vh"
 		}}>
-			{/* <MatchedLink to={'/blog'} primary={'网志'}/> */}
-			{/* <MatchedLink to={'/player'} primary={'播放器'}/> */}
-			{/* <MatchedLink to={'/about'} primary={'关于我'}/> */}
+			<MatchedLink to={'/blog'} primary={'网志'}/>
+			<MatchedLink to={'/player'} primary={'播放器'}/>
+			<MatchedLink to={'/about'} primary={'关于我'}/>
 			{/* <MatchedLink to={'/sakura'} primary={'樱花🌸'}/> */}
-			{/* <MatchedLink to={'/study'} primary={'学习资料'}/> */}
+			<MatchedLink to={'/study'} primary={'学习资料'}/>
 		</Box>
 	</ThemeProvider>
 }
