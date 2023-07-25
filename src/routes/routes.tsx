@@ -11,6 +11,10 @@ import Sakura from '../pages/Dashboard/Sakura'
 import BackEnd from '../pages/BackEnd'
 import Study from '../pages/Dashboard/Study'
 import Layout from '../pages/Layout'
+import Articles from '../pages/Dashboard/Articles'
+import ArticleContent from '../pages/Dashboard/Articles/ArticleContent'
+import ManagementLayout from '../pages/ManagementLayout'
+import WriteMd from '../pages/ManagementLayout/WriteMd'
 
 const routes = [{
 	path: "/",
@@ -21,6 +25,13 @@ const routes = [{
 		children:[{
 			path:':mdName',
 			element:<BlogMd/>,
+		}]
+	},{
+		path:"articles",
+		element:<Articles/>,
+		children:[{
+			path:':articleName',
+			element:<ArticleContent/>,
 		}]
 	},{
 		path:"about",
@@ -48,6 +59,13 @@ const routes = [{
 		path:'/userinfo/info',
 		element:<Info/>
 	}]
+},{
+	path:"/management",
+	element:<ManagementLayout/>,
+	children:[{
+    path:"/management/writeMd",
+    element:<WriteMd/>
+  }]
 }]
 
 export default routes

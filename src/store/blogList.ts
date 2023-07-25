@@ -7,19 +7,7 @@ export const blogSlice = createSlice({
   },
   reducers: {
     setBlogList: (state, action) => {
-			const dirData = action.payload
-			// const reduceDir = (dirList) => {
-			// 	if(dirList.length){
-			// 		arrTemp = arrTemp.concat(dirList.childF)
-			// 	} 
-			// 	if(dirList.length){
-			// 		for(let i = 0 ;i<dirList.length;i++){
-			// 			reduceDir(dirList[i])
-			// 		}
-			// 	}
-			// };
-			// reduceDir(dirData)
-      state.blogList = dirData
+      state.blogList = action.payload
     }
   }
 })

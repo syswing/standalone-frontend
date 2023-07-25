@@ -19,6 +19,11 @@ export default {
 				page:'1',
 				size:'10'
 			}
+		},
+		'up':{
+			url:'/adventure/zan',
+			method: 'POST',
+			data:{}
 		}
 	},
 	'QQMusic': {
@@ -49,6 +54,20 @@ export default {
 			data: {
 				songmid: "1812298100"
 			}
+		}
+	},
+	'tags':{
+		'list':{
+			url: '/tags/list',
+			method: 'GET',
+			data:{}
+		}
+	},
+	'BingPic':{
+		'bingPic':{
+			url: '/BingPic/bingPic',
+			method: 'GET',
+			data:{}
 		}
 	}
 }
