@@ -5,6 +5,11 @@ export default {
 			method: 'GET',
 			data:{}
 		},
+		'delete': {
+			url: '/adventure/delete',
+			method: 'POST',
+			data:{}
+		},
 		'read':{
 			url: '/adventure/read',
 			method: 'GET',
@@ -19,6 +24,19 @@ export default {
 				page:'1',
 				size:'10'
 			}
+		},
+		'adminList':{
+			url: '/adventure/adminList',
+			method: 'GET',
+			data:{
+				page:'1',
+				size:'10'
+			}
+		},
+		'add':{
+			url: '/adventure/add',
+			method: 'POST',
+			data:{}
 		},
 		'up':{
 			url:'/adventure/zan',

@@ -31,6 +31,7 @@ const TopBar = ({drawSwitch}) => {
 	
 	useEffect(() => {
 		canvasRef.current.style.backgroundImage = `url(${bingUrl+bingPic.images[currentPic].url})`
+		canvasRef.current.style.backgroundSize = `100% 100%`
 	},[currentPic])
 
 	useEffect(() => {

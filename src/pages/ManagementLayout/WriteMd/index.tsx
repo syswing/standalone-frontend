@@ -1,141 +1,57 @@
-import { Input, Typography } from "@mui/material";
 import React from "react";
 import Grid from "@mui/material/Grid";
-import PhotoSizeSelectActualIcon from "@mui/icons-material/PhotoSizeSelectActual";
-import { styled } from "@mui/material/styles";
-import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import TitleIcon from '@mui/icons-material/Title';
-import CodeIcon from '@mui/icons-material/Code';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import ReplyIcon from '@mui/icons-material/Reply';
+import PreviewContent from "./PreviewContent";
+import EditorBar from "./EditorBar";
+import action from "../../../request/action";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import EditorHead from "./EditorHead";
 
-const BootstrapTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-  },
-}));
-
-const EditorHead = React.forwardRef((props:any,ref:any) => {
-  const InputStyle = {
-    flexShrink: 0,
-    width: "100%",
-    padding: "0 80px 10px 40px",
-    marginBottom: 0,
-    border: "none",
-    fontSize: "30px",
-    fontWeight: 400,
-    lineHeight: "30px",
-    boxShadow: "none",
-    color: "#595959",
-    backgroundColor: "transparent",
-    outline: "none",
-    borderRadius: 0,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap" as any,
-  };
-  return <input onChange={props.onChange} ref={ref} style={InputStyle} />;
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-
-const IconToolTip = (props) => {
-	return <a className={props.className}>{props.children}</a>
-}
-
-const IconToolTipWarp = styled(IconToolTip)<any>(() => {
-  return {
-		"&:hover": {
-			color:'#f2f2f2',
-			backgroundColor:'#595959'
-		},
-    color: "#595959",
-    padding: "11px",
-    display: "flex",
-    lineHeight: "0px",
-    fontSize: "16px",
-		alignItems:"center",
-		"& span":{
-			fontSize:"13px",
-			marginLeft:"8px",
-		}
-  };
-});
-
-const EditorBar = () => {
-  const UlStyle = {
-    margin: 0,
-    listStyleType: "none",
-    backgroundColor: "#d9d9d9",
-    borderBottom: "1px solid #ccc",
-    fontSize: 0,
-  };
-  const liStyle = {
-    display: "inline-block",
-    cursor: "pointer",
-    textAlign: "center" as any,
-  };
-
-  return (
-    <ul style={UlStyle}>
-      <BootstrapTooltip title="上传图片">
-        <li style={liStyle}>
-          <IconToolTipWarp>
-            <PhotoSizeSelectActualIcon sx={{ fontSize: 17 }} />
-          </IconToolTipWarp>
-        </li>
-      </BootstrapTooltip>
-      <BootstrapTooltip title="标题">
-        <li style={liStyle}>
-          <IconToolTipWarp>
-            <TitleIcon sx={{ fontSize: 17 }} />
-          </IconToolTipWarp>
-        </li>
-      </BootstrapTooltip>
-      <BootstrapTooltip title="代码块">
-        <li style={liStyle}>
-          <IconToolTipWarp>
-            <CodeIcon sx={{ fontSize: 17 }} />
-          </IconToolTipWarp>
-        </li>
-      </BootstrapTooltip>
-      <BootstrapTooltip title="标记">
-        <li style={liStyle}>
-          <IconToolTipWarp>
-            <BookmarkIcon sx={{ fontSize: 17 }} />
-          </IconToolTipWarp>
-        </li>
-      </BootstrapTooltip>
-			<BootstrapTooltip title="发布">
-        <li style={{
-					...liStyle,
-					float:'right'
-				}}>
-          <IconToolTipWarp>
-            <ReplyIcon sx={{ fontSize: 17 }} />
-						<span>发布</span>
-          </IconToolTipWarp>
-        </li>
-      </BootstrapTooltip>
-    </ul>
-  );
-};
 
 export default () => {
-	const titleRef = React.useRef(null) as any;
-	const [previewHead,setPreviewHead] = React.useState('');
+  const titleRef = React.useRef(null) as any;
+  const textRef = React.useRef(null) as any;
+  const [previewHead, setPreviewHead] = React.useState("");
+  const [mdContent, setMdContent] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Grid container>
+    <Grid
+      container
+      style={{
+        height: "calc(100vh - 64px)",
+      }}
+    >
       <Grid item xs={6}>
-        <EditorHead ref={titleRef} onChange={() => {
-					setPreviewHead(titleRef.current?.value || '')
-				}}/>
-        <EditorBar />
+        <EditorHead
+          ref={titleRef}
+          onChange={() => {
+            setPreviewHead(titleRef.current?.value || "");
+          }}
+        />
+        <EditorBar
+          onConfirm={async (articleTags) => {
+            const res = (await action({
+              path: "/adventure/add",
+              params: {
+                tag: articleTags.map((item: any) => item.id).join(","),
+                name: previewHead,
+                content: mdContent,
+              },
+            })) as any;
+            if (res.result === 0) {
+               setOpen(true);
+            }
+          }}
+        />
         <textarea
+          ref={textRef}
           style={{
             width: "100%",
             flex: 1,
@@ -151,26 +67,45 @@ export default () => {
             outline: "none",
             overflow: "auto",
           }}
+          onChange={() => {
+            setMdContent(textRef.current?.value || "");
+          }}
         ></textarea>
       </Grid>
       <Grid item xs={6}>
-				<div style={{
-			    position: 'relative',
-					height: '100%',
-					overflowY: "auto",
-					color: '#333',
-					backgroundColor: '#fcfaf2',
-					padding: "40px 40px 80px",
-					fontSize: "16px",
-					lineHeight: 1.75
-				}}>
-					<h1 style={{
-						marginBottom: '20px',
-				    fontSize: '26px',
-				    color: "inherit",
-					}}>{previewHead}</h1>
-				</div>
-			</Grid>
+        <div
+          style={{
+            position: "relative",
+            height: "100%",
+            overflowY: "auto",
+            padding: "40px 40px 80px",
+            fontSize: "16px",
+            lineHeight: 1.75,
+          }}
+        >
+          <h1
+            style={{
+              marginBottom: "20px",
+              fontSize: "26px",
+              color: "inherit",
+            }}
+          >
+            {previewHead}
+          </h1>
+          <PreviewContent mdContent={mdContent} />
+        </div>
+      </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%' }}>
+          发布成功
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };

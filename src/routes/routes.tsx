@@ -15,6 +15,20 @@ import Articles from '../pages/Dashboard/Articles'
 import ArticleContent from '../pages/Dashboard/Articles/ArticleContent'
 import ManagementLayout from '../pages/ManagementLayout'
 import WriteMd from '../pages/ManagementLayout/WriteMd'
+import MdList from '../pages/ManagementLayout/MdList'
+import Tags from '../pages/ManagementLayout/Tags'
+
+export const managementMenu = [
+	{
+		path:"/management/MdList",
+		title:'日志管理',
+    element:<MdList/>
+	},{
+		path:"/management/tags",
+		title:'标签管理',
+    element:<Tags/>
+	}
+]
 
 const routes = [{
 	path: "/",
@@ -64,8 +78,11 @@ const routes = [{
 	element:<ManagementLayout/>,
 	children:[{
     path:"/management/writeMd",
+		title:'写日志',
     element:<WriteMd/>
-  }]
+  }].concat(managementMenu)
 }]
+
+
 
 export default routes

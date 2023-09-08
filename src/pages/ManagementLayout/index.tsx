@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   Toolbar,
@@ -23,7 +23,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
+import { useLocation } from "react-router-dom";
+import { managementMenu } from "../../routes/routes";
 const drawerWidth = 240;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -73,9 +74,43 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+const LinkItem = ({ to, name, open, setHeaderName }) => {
+  return (
+    <Link
+      style={{
+        textDecoration: "none",
+        color: "currentColor",
+        width: "100%",
+      }}
+      to={to}
+      onClick={() => setHeaderName(name)}
+    >
+      <ListItemButton
+        sx={{
+          minHeight: 48,
+          justifyContent: open ? "initial" : "center",
+          px: 2.5,
+        }}
+      >
+        <ListItemIcon
+          sx={{
+            minWidth: 0,
+            mr: open ? 3 : "auto",
+            justifyContent: "center",
+          }}
+        ></ListItemIcon>
+        <ListItemText primary={name} sx={{ opacity: open ? 1 : 0 }} />
+      </ListItemButton>
+    </Link>
+  );
+};
+
 export default () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const location = useLocation();
+
+  const [headerName, setHeaderName] = useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -119,7 +154,7 @@ export default () => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap component="div">
-                Persistent drawer
+                {headerName}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -145,7 +180,7 @@ export default () => {
                 color: "currentColor",
                 width: "100%",
               }}
-              to={"/management"}
+              to={"/articles"}
             >
               <Typography align="right" variant="h6" noWrap component="div">
                 syswing
@@ -163,34 +198,17 @@ export default () => {
           <Divider />
           <List>
             <ListItem disablePadding sx={{ display: "block" }}>
-              <Link
-                style={{
-                  textDecoration: "none",
-                  color: "currentColor",
-                  width: "100%",
-                }}
-                to={"/management/writeMd"}
-              >
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  ></ListItemIcon>
-                  <ListItemText
-                    primary={"如是我闻"}
-                    sx={{ opacity: open ? 1 : 0 }}
+              {managementMenu.map((item) => {
+                return (
+                  <LinkItem
+                    open={open}
+                    setHeaderName={setHeaderName}
+                    to={item.path}
+                    name={item.title}
+                    key={item.title}
                   />
-                </ListItemButton>
-              </Link>
+                );
+              })}
             </ListItem>
           </List>
         </Drawer>
@@ -198,6 +216,18 @@ export default () => {
           <DrawerHeader />
           <Outlet />
         </Main>
+        
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={() => {
+            setOpen(false);
+          }}
+        >
+          <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%' }}>
+            发布成功
+          </Alert>
+        </Snackbar>
       </Box>
     </>
   );

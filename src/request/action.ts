@@ -14,13 +14,19 @@ const getApiConfig = (path:string) => {
 	}
 	return config
 }
-
+interface action {
+	path:string;
+	params?:any;
+}
 /**
  * @path 请求路径
  * @params 请求参数
  */
-export default ({path,params}:any) => {
+export default ({path,params}:action) => {
 	const apiConfig = getApiConfig(path)
+	if(!apiConfig){
+		throw new Error('Invalid API 未找到api配置')
+	}
 	Object.assign(apiConfig.data,params)
 	console.log('apiConfig => ',apiConfig)
 	if(apiConfig.method === 'GET'){

@@ -37,13 +37,15 @@ const Quote = emotionStyled.i(({ float }: any) => {
 const PositionDiv = (props) => {
   return <div className={props.className}>{props.children}</div>;
 };
-const PositionDivWarp = styled(PositionDiv)<any>(({ left, top, color }) => {
+const PositionDivWarp = styled(PositionDiv)<any>(({ left, top, color,width,minWidth }) => {
   return {
     position: "absolute",
     left: left,
     top: top,
     transform: "translate(-50%,-50%)",
     color: color,
+    width:width,
+    minWidth: minWidth
   };
 });
 
@@ -86,9 +88,7 @@ const BackgroundBar = ({showTopBar}) => {
           alt="syswing"
           src={AvatarImg}
         />
-        <PositionDivWarp style={{
-          width:'20em'
-        }} top={"180px"} left={"50%"} color={"white"}>
+        <PositionDivWarp minWidth={'20em'} top={"180px"} left={"50%"} color={"white"}>
           <Quote>{bingPic.images[currentPic]?.copyright}</Quote>
           <Quote float="right">----{bingPic.images[currentPic]?.title}</Quote>
         </PositionDivWarp>

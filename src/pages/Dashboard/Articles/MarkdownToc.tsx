@@ -5,7 +5,7 @@ const MarkdownToc = () => {
 	const currentBlog = useSelector((state:any) => state.currentBlogReducer.currentBlog)
 	console.log('currentBlog',currentBlog)
 	return <div style={{
-		padding:20
+		padding:20,
 	}} dangerouslySetInnerHTML={{__html:currentBlog.tocContent}}></div>
 }
 

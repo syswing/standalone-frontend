@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { IconButton, Typography } from '@mui/material'
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import action from '../../../request/action';
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { pink } from '@mui/material/colors';
 
 export default ({up,id}) => {
 	const [isClicked,setIsClicked] = useState(false)
@@ -22,7 +22,7 @@ export default ({up,id}) => {
 				setIsClicked(true)
 			}
 		}}>
-			{isClicked ? <ThumbUpAltIcon/> : <ThumbUpOffAltIcon/>}
+			{isClicked ? <FavoriteIcon color={'secondary'}/> : <FavoriteBorderIcon color={'secondary'}/>}
 		</IconButton>
 		<Typography>{curUp}</Typography>
 	</>
