@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import {
   GridActionsCellItem,
   DataGrid,
-  GridColDef,
-  GridValueGetterParams,
   GridRowsProp,
   GridRenderCellParams,
 } from "@mui/x-data-grid";
@@ -78,23 +76,25 @@ const MdList = () => {
 
   const [loading, setLoading] = React.useState(false);
 
+  const refresh = async (active) => {
+    setLoading(true);
+    const newRows = (await loadServerRows(
+      paginationModel.page,
+      mdColumn
+    )) as any;
+
+    if (!active) {
+      return;
+    }
+
+    setRows(newRows.data);
+    setLoading(false);
+  }
+
   React.useEffect(() => {
     let active = true;
 
-    (async () => {
-      setLoading(true);
-      const newRows = (await loadServerRows(
-        paginationModel.page,
-        mdColumn
-      )) as any;
-
-      if (!active) {
-        return;
-      }
-
-      setRows(newRows.data);
-      setLoading(false);
-    })();
+    refresh(active);
 
     return () => {
       active = false;
@@ -135,6 +135,8 @@ const MdList = () => {
             text="是"
             callback={async (result) => {
               console.log("result", result);
+							await refresh(true)
+							setDialogParams(null)
             }}
           />
         </DialogActions>

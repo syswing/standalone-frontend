@@ -12,6 +12,8 @@ import {
   Typography,
   Box,
   CssBaseline,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
@@ -109,6 +111,7 @@ export default () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
+  const [openSnack, setOpenSnack] = React.useState(false);
 
   const [headerName, setHeaderName] = useState("");
 
@@ -218,13 +221,13 @@ export default () => {
         </Main>
         
         <Snackbar
-          open={open}
+          open={openSnack}
           autoHideDuration={6000}
           onClose={() => {
-            setOpen(false);
+            setOpenSnack(false);
           }}
         >
-          <Alert onClose={() => setOpen(false)} severity="success" sx={{ width: '100%' }}>
+          <Alert onClose={() => setOpenSnack(false)} severity="success" sx={{ width: '100%' }}>
             发布成功
           </Alert>
         </Snackbar>

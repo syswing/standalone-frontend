@@ -2,7 +2,7 @@ import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from '@mui/icons-material/Save';
 
-const LoadingConfirmBtn = ({text = '保存',action,callback}) => {
+const LoadingConfirmBtn = ({text = '保存',action,callback,...rest}) => {
 
 	const [loading,setLoading] = React.useState(false)
 
@@ -18,6 +18,7 @@ const LoadingConfirmBtn = ({text = '保存',action,callback}) => {
 				await callback(result)
 				setLoading(false)
 			}}
+      {...rest}
     >
       {text}
     </LoadingButton>

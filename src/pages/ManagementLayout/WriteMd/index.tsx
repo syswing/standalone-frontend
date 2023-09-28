@@ -36,6 +36,8 @@ export default () => {
           }}
         />
         <EditorBar
+          textRef={textRef}
+          setMdContent={setMdContent}
           onConfirm={async (articleTags) => {
             const res = (await action({
               path: "/adventure/add",

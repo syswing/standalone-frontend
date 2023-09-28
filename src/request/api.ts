@@ -79,12 +79,37 @@ export default {
 			url: '/tags/list',
 			method: 'GET',
 			data:{}
+		},
+		'add':{
+			url: '/tags/add',
+			method: 'POST',
+			data:{}
+		},
+		'delete':{
+			url: '/tags/delete',
+			method: 'POST',
+			data:{}
+		},
+		'edit':{
+			url: '/tags/edit',
+			method: 'POST',
+			data:{}
 		}
 	},
 	'BingPic':{
 		'bingPic':{
 			url: '/BingPic/bingPic',
 			method: 'GET',
+			data:{}
+		}
+	},
+	'picture':{
+		'upload':{
+			url: '/picture/upload',
+			method: 'POST',
+			headers:{
+				'Content-Type': 'multipart/form-data',
+			},
 			data:{}
 		}
 	}
