@@ -38,6 +38,7 @@ const MatchedLink = ({to,primary}) => {
 		caseSensitive:false, // 大小写敏感
 		end:false //是否全匹配
 	})
+	
 	return <Link style={{
 		textDecoration: 'none',
 		color: 'currentColor',
@@ -80,7 +81,7 @@ const NavBar = ({showTopBar,handleChangeShowTopBar}) => {
 	>
 		<Stack direction="row" spacing={2}>
 			<MatchedLink to={'/articles'} primary={'如是我闻'}/>
-			<MatchedLink to={'/player'} primary={'念慈悲渡众生'}/>
+			<MatchedLink to={'/player'} primary={'音乐播放器'}/>
 			<MatchedLink to={'/about'} primary={'海的那边'}/>
 			<MatchedLink to={'/sakura'} primary={'大江大河'}/>
 			<MatchedLink to={'/study'} primary={'一见如故'}/>

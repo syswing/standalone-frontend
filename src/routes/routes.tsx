@@ -17,6 +17,7 @@ import ManagementLayout from '../pages/ManagementLayout'
 import WriteMd from '../pages/ManagementLayout/WriteMd'
 import MdList from '../pages/ManagementLayout/MdList'
 import Tags from '../pages/ManagementLayout/Tags'
+import Pic from '../pages/ManagementLayout/Pic'
 
 export const managementMenu = [
 	{
@@ -27,6 +28,10 @@ export const managementMenu = [
 		path:"/management/tags",
 		title:'标签管理',
     element:<Tags/>
+	},{
+		path:"/management/pic",
+		title:'图片管理',
+    element:<Pic/>
 	}
 ]
 
