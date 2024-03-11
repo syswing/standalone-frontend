@@ -111,6 +111,14 @@ export default {
 				'Content-Type': 'multipart/form-data',
 			},
 			data:{}
+		},
+		'getPicPage':{
+			url: '/picture/getPicPage',
+			method: 'GET',
+			headers:{
+				'Content-Type': 'multipart/form-data',
+			},
+			data:{}
 		}
 	}
 }
