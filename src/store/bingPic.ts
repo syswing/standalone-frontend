@@ -13,7 +13,7 @@ export const bingPicSlice = createSlice({
   reducers: {
     setBingPic: (state, action) => {
       state.bingPic = action.payload,
-			state.last = state.bingPic.images.length
+			state.last = state.bingPic.images?.length
     },
     nextPic:(state, action) => {
       if(state.current < state.last - 1){

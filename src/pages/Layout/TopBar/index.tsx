@@ -27,11 +27,15 @@ const TopBar = ({drawSwitch}) => {
 	
 	console.log('currentPic',currentPic)
 
-	const Height = 1080 * (size.width || 0) / 1920
+	// const Height = 1080 * (size.width || 0) / 1920
 	
 	useEffect(() => {
 		canvasRef.current.style.backgroundImage = `url(${bingUrl+bingPic.images[currentPic].url})`
-		canvasRef.current.style.backgroundSize = `100% 100%`
+		canvasRef.current.style.backgroundSize = `cover`
+		canvasRef.current.style.backgroundPosition = 'center'
+		canvasRef.current.style.height='100vh'
+		canvasRef.current.style.width='100%'
+		canvasRef.current.style.position='fixed'
 	},[currentPic])
 
 	useEffect(() => {
@@ -41,7 +45,7 @@ const TopBar = ({drawSwitch}) => {
 		const createPieces = (pieceMax,pieceMin,ctx,size) => {
 			return {
 				x:Math.floor(Math.random() * size.width) , 
-				y:Math.floor(Math.random() * Height),
+				y:Math.floor(Math.random() * size.height),
 				vy:Math.ceil(Math.random() * maxVy0),
 				r:Math.random() * (pieceMax - pieceMin) + pieceMin,
 				t:Math.random() * 2,
@@ -51,10 +55,10 @@ const TopBar = ({drawSwitch}) => {
 			}
 		} 
 		const animate = (timestamp) => {
-			ctx.clearRect(0,0, size.width, Height);
+			ctx.clearRect(0,0, size.width, size.height);
 			for(let i = 0 ;i<pieces.length;i++){
 				pieces[i].y += pieces[i].vy
-				if(pieces[i].y + pieces[i].r > Height){
+				if(pieces[i].y + pieces[i].r > size.height){
 					pieces[i].y = 0
 				}
 				if(pieces[i].x + pieces[i].r > size.width){
@@ -76,7 +80,7 @@ const TopBar = ({drawSwitch}) => {
 				framHandler = window.requestAnimationFrame(animate)
 			}else{
 				window.cancelAnimationFrame(framHandler)
-				ctx.clearRect(0,0, size.width, Height);
+				ctx.clearRect(0,0, size.width, size.height);
 			}
 		}
 		return () => {
@@ -86,7 +90,7 @@ const TopBar = ({drawSwitch}) => {
 		}
 	},[size,drawSwitch])
 
-	return <canvas width={size.width} height={Height} ref={canvasRef}></canvas>
+	return <canvas width={size.width} height={size.height} ref={canvasRef}></canvas>
 }
 
 export default TopBar

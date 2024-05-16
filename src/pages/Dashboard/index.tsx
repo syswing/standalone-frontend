@@ -4,12 +4,14 @@ import PageContainer from './PageContainer'
 import { Outlet } from 'react-router-dom';
 
 const Dashboard = () => {
-	return <Container fixed sx={{
-		marginTop:'80px',
-		paddingBottom:'20px'
-	}}>
-	  <PageContainer element={<Outlet/>}/>
-	</Container>
+
+	return <div  style={{
+		position: 'absolute',
+		top: '64px',
+		width: '100%',
+		overflowY:'auto'
+	}}><PageContainer element={<Outlet/>}/></div>
 }
 
 export default Dashboard
+ 

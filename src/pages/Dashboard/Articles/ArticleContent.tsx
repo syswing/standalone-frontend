@@ -16,7 +16,6 @@ export default () => {
 			}}>
         <MarkdownToc />
       </Grid>}
-      
       <Grid item xs>
         <Paper elevation={4}>
           <div
@@ -24,6 +23,7 @@ export default () => {
             style={{
               padding: 20,
               marginBottom: 20,
+              minHeight:500
             }}
             dangerouslySetInnerHTML={{ __html: currentBlog.md }}
           ></div>

@@ -18,6 +18,7 @@ import WriteMd from '../pages/ManagementLayout/WriteMd'
 import MdList from '../pages/ManagementLayout/MdList'
 import Tags from '../pages/ManagementLayout/Tags'
 import Pic from '../pages/ManagementLayout/Pic'
+import Resume from '../pages/Resume'
 
 export const managementMenu = [
 	{
@@ -86,6 +87,9 @@ const routes = [{
 		title:'写日志',
     element:<WriteMd/>
   }].concat(managementMenu)
+},{
+	path:"/resume",
+	element:<Resume/>,
 }]
 
 

@@ -81,26 +81,26 @@ const NavBar = ({showTopBar,handleChangeShowTopBar}) => {
 	>
 		<Stack direction="row" spacing={2}>
 			<MatchedLink to={'/articles'} primary={'如是我闻'}/>
-			<MatchedLink to={'/player'} primary={'音乐播放器'}/>
-			<MatchedLink to={'/about'} primary={'海的那边'}/>
-			<MatchedLink to={'/sakura'} primary={'大江大河'}/>
-			<MatchedLink to={'/study'} primary={'一见如故'}/>
+			{/* <MatchedLink to={'/player'} primary={'音乐播放器'}/> */}
+			<MatchedLink to={'/sakura'} primary={'海的那边'}/>
+			{/* <MatchedLink to={'/sakura'} primary={'大江大河'}/> */}
+			{/* <MatchedLink to={'/study'} primary={'一见如故'}/> */}
 		</Stack>
-		<Stack direction="row" spacing={2} style={{
+		{/* <Stack direction="row" spacing={2} style={{
 			marginLeft:'auto',
 			marginRight:30
-		}}>
-			<FormControlLabel control={<Switch 
+		}}> */}
+			{/* <FormControlLabel control={<Switch 	
 				checked={showTopBar}
 				onChange={handleChangeShowTopBar}
-			/>} label="动效开关" />
-			<Button variant="contained" onClick={() => {
+			/>} label="动效开关" /> */}
+			{/* <Button variant="contained" onClick={() => {
 				dispatch(frontPic({}))
 			}}>上一张图</Button>
 			<Button variant="contained" onClick={() => {
 				dispatch(nextPic({}))
-			}}>下一张图</Button>
-		</Stack>
+			}}>下一张图</Button> */}
+		{/* </Stack> */}
 	</ThemeProvider>
 }
 
