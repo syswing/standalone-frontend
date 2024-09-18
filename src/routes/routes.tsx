@@ -19,6 +19,7 @@ import MdList from '../pages/ManagementLayout/MdList'
 import Tags from '../pages/ManagementLayout/Tags'
 import Pic from '../pages/ManagementLayout/Pic'
 import Resume from '../pages/Resume'
+import Components from '../pages/Components'
 
 export const managementMenu = [
 	{
@@ -90,6 +91,9 @@ const routes = [{
 },{
 	path:"/resume",
 	element:<Resume/>,
+},{
+	path:'/components',
+	element:<Components/>,
 }]
 
 
