@@ -132,7 +132,7 @@ const Layout = () => {
       <Container>
         <Grid className='pt-5' container spacing={1}>
           <Grid item xs={4}>
-            <Card className="p-10" sx={{ maxWidth: 345 }}>
+            {/* <Card className="p-10" sx={{ maxWidth: 345 }}>
               <BounceAvatar
                 sx={{ width: 88, height: 88 }}
                 alt="syswing"
@@ -140,7 +140,7 @@ const Layout = () => {
               />
               <Quote>{bingPic.images[currentPic]?.copyright}</Quote>
               <Quote float="right">----@bing {bingPic.images[currentPic]?.title}</Quote>
-            </Card>
+            </Card> */}
           </Grid>
           <Grid item xs={8}>
             <Card className="p-4 mb-3">

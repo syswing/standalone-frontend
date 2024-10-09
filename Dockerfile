@@ -1,6 +1,6 @@
 FROM nginx
 
-WORKDIR ~/standalone-frontend/
+WORKDIR /root/standalone-frontend/
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
