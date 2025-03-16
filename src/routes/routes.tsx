@@ -20,82 +20,112 @@ import Tags from '../pages/ManagementLayout/Tags'
 import Pic from '../pages/ManagementLayout/Pic'
 import Resume from '../pages/Resume'
 import Components from '../pages/Components'
+import Routes from '../pages/ManagementLayout/Routes'
 
 export const managementMenu = [
-	{
-		path:"/management/MdList",
-		title:'日志管理',
-    element:<MdList/>
-	},{
-		path:"/management/tags",
-		title:'标签管理',
-    element:<Tags/>
-	},{
-		path:"/management/pic",
-		title:'图片管理',
-    element:<Pic/>
-	}
+  {
+    path: '/management/MdList',
+    title: '日志管理',
+    element: <MdList />,
+  },
+  {
+    path: '/management/tags',
+    title: '标签管理',
+    element: <Tags />,
+  },
+  {
+    path: '/management/pic',
+    title: '图片管理',
+    element: <Pic />,
+  },
+  {
+    path: '/management/routes',
+    title: '路由管理',
+    element: <Routes />,
+  },
+  
 ]
 
-const routes = [{
-	path: "/",
-	element: <Layout />,
-	children: [{
-		path:"blog",
-		element:<Blog/>,
-		children:[{
-			path:':mdName',
-			element:<BlogMd/>,
-		}]
-	},{
-		path:"articles",
-		element:<Articles/>,
-		children:[{
-			path:':articleName',
-			element:<ArticleContent/>,
-		}]
-	},{
-		path:"about",
-		element:<About/>
-	},{
-		path:'player',
-		element:<About/>
-	},{
-		path:'sakura',
-		element:<Sakura/>
-	},{
-		path:'study',
-		element:<Study/>
-	}]
-}, {
-	path: "/qqmusic",
-	element:<QQMusic/>
-},{
-	path:'/userinfo',
-	element:<UserInfo/>,
-	children:[{
-		path:'/userinfo/songlist/:listId',
-		element:<Songlist/>
-	},{
-		path:'/userinfo/info',
-		element:<Info/>
-	}]
-},{
-	path:"/management",
-	element:<ManagementLayout/>,
-	children:[{
-    path:"/management/writeMd",
-		title:'写日志',
-    element:<WriteMd/>
-  }].concat(managementMenu)
-},{
-	path:"/resume",
-	element:<Resume/>,
-},{
-	path:'/components',
-	element:<Components/>,
-}]
-
-
+const routes = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: 'blog',
+        element: <Blog />,
+        children: [
+          {
+            path: ':mdName',
+            element: <BlogMd />,
+          },
+        ],
+      },
+      {
+        path: 'articles',
+        element: <Articles />,
+        children: [
+          {
+            path: ':articleName',
+            element: <ArticleContent />,
+          },
+        ],
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'player',
+        element: <About />,
+      },
+      {
+        path: 'sakura',
+        element: <Sakura />,
+      },
+      {
+        path: 'study',
+        element: <Study />,
+      },
+    ],
+  },
+  {
+    path: '/qqmusic',
+    element: <QQMusic />,
+  },
+  {
+    path: '/userinfo',
+    element: <UserInfo />,
+    children: [
+      {
+        path: '/userinfo/songlist/:listId',
+        element: <Songlist />,
+      },
+      {
+        path: '/userinfo/info',
+        element: <Info />,
+      },
+    ],
+  },
+  {
+    path: '/management',
+    element: <ManagementLayout />,
+    children: [
+      {
+        path: '/management/writeMd',
+        title: '写日志',
+        element: <WriteMd />,
+      },
+    ].concat(managementMenu),
+  },
+  {
+    path: '/resume',
+    element: <Resume />,
+  },
+  {
+    path: '/components',
+    element: <Components />,
+  },
+]
 
 export default routes

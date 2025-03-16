@@ -27,3 +27,20 @@ body li {
 body h1 {
   font-weight: 600;
 }
+
+.glass{
+  background:hsla(0, 0%, 100%, .3);
+  overflow: hidden;
+  position: relative;
+}
+.glass::before{
+  content:'';
+  position:absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  backdrop-filter: blur(20px);
+  margin: -30px;
+  z-index: -3;
+}
