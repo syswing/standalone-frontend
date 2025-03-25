@@ -177,7 +177,7 @@ export default () => {
           open={open}
         >
           <DrawerHeader>
-            <Link
+            {/* <Link
               style={{
                 textDecoration: "none",
                 color: "currentColor",
@@ -188,7 +188,7 @@ export default () => {
               <Typography align="right" variant="h6" noWrap component="div">
                 syswing
               </Typography>
-            </Link>
+            </Link> */}
 
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (

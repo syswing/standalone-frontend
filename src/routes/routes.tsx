@@ -21,7 +21,8 @@ import Pic from '../pages/ManagementLayout/Pic'
 import Resume from '../pages/Resume'
 import Components from '../pages/Components'
 import Routes from '../pages/ManagementLayout/Routes'
-
+import Ocr from '../pages/ManagementLayout/Ocr'
+  
 export const managementMenu = [
   {
     path: '/management/MdList',
@@ -43,7 +44,11 @@ export const managementMenu = [
     title: '路由管理',
     element: <Routes />,
   },
-  
+  {
+    path: '/management/ocr',
+    title: 'ocr',
+    element: <Ocr />,
+  },
 ]
 
 const routes = [

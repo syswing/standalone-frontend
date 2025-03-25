@@ -121,7 +121,15 @@ export default {
       data: {},
     },
   },
-  routes:{
-		
-  }
+  routes:{},
+  ocr:{
+    ocr:{
+      url: '/ocr/ocr',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: {},
+    },
+  },
 }
