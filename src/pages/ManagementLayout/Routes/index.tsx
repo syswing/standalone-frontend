@@ -1,9 +1,10 @@
 import { GridRowsProp, DataGrid } from '@mui/x-data-grid'
 import React from 'react'
 import action from '../../../request/action'
+import ProDataGrid from 'components/ProDataGrid'
 
 const Routes = () => {
-  const [rows, setRows] = React.useState<GridRowsProp>([])
+  
 
   const columns = React.useMemo(() => {
     return [
@@ -18,37 +19,16 @@ const Routes = () => {
       { field: 'isDeleted', headerName: '是否删除', width: 100 },
       { field: 'createdAt', headerName: '创建时间', width: 100 },
       { field: 'updatedAt', headerName: '更新时间', width: 100 },
-
     ]
   }, [])
 
-  const [paginationModel, setPaginationModel] = React.useState({
-    page: 0,
-    pageSize: 5,
-  });
-
-  const loadServerRows = async (page: number, data: any): Promise<any> => {
-    const res = await action({
-      path: '/routes',
-      params: {
-        page,
-        pageSize: paginationModel.pageSize,
-      },
-    })
-    
-    return res
-  }
-  
-
-
   return (
     <div>
-      <DataGrid
-        rows={rows}
+      <ProDataGrid
+        path={'/routes/list'}
         columns={columns}
         pagination
         checkboxSelection
-        paginationModel={paginationModel}
       />
     </div>
   )

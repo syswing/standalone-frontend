@@ -121,7 +121,28 @@ export default {
       data: {},
     },
   },
-  routes:{},
+  routes:{
+    create:{
+      url: '/routes/create',
+      method: 'POST',
+      data: {},
+    },
+    list:{
+      url: '/routes/list',
+      method: 'GET',
+      data: {},
+    },
+    remove:{
+      url: '/routes/remove',
+      method: 'POST',
+      data: {},
+    },
+    update:{
+      url: '/routes/update',
+      method: 'POST',
+      data: {},
+    }
+  },
   ocr:{
     ocr:{
       url: '/ocr/ocr',

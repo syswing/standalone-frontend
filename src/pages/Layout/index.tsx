@@ -122,15 +122,18 @@ const Layout = () => {
         // opacity: '0.5',
       }}
     >
-      <Container className='absolute z-10'>
+      <Container className='absolute z-10' style={{
+        transform: 'translateX(-50%)',
+        left: '50%',
+      }}>
         <Grid className="pt-5" container spacing={1}>
           <Grid item xs={4}>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>111</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由1</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由2</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由3</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由4</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由5</NavBtnShadow>
+            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由6</NavBtnShadow>
 
             {/* <Card className="p-10" sx={{ maxWidth: 345 }}>
               <BounceAvatar
