@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 
 import AvatarImg from '@/images/WechatIMG115.jpeg'

@@ -16,8 +16,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import LoadingConfirmBtn from "../../../components/LoadingConfirmBtn";
-import { Stack } from "@mui/material";
+import { Slide, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { TransitionProps } from "@mui/material/transitions";
 
 const MdList = () => {
   const tags = useSelector((state: any) => state.tagsReducer.tags);
@@ -113,11 +114,23 @@ const MdList = () => {
       setDialogParams(null);
     };
 
+    // const Transition = React.forwardRef(function Transition(
+    //   props: TransitionProps & {
+    //     children: React.ReactElement<any, any>;
+    //   },
+    //   ref: React.Ref<unknown>,
+    // ) {
+    //   return <Slide direction="up" ref={ref} {...props} />;
+    // });
+
     return (
       <Dialog
         sx={{ m: 0, p: 2 }}
-        // TransitionProps={{ onEntered: handleEntered }}
+        // TransitionComponent={Transition}
         open={!!dialogParams}
+        keepMounted
+        onClose={handleNo}
+        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>确认提示</DialogTitle>
         <DialogContent dividers>

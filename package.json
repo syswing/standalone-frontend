@@ -4,11 +4,11 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.136",
-    "@mui/material": "^5.8.6",
+    "@mui/material": "^5.17.1",
     "@mui/x-data-grid": "^6.11.0",
     "@mui/x-data-grid-generator": "^6.11.0",
     "@mui/x-data-grid-pro": "^6.11.0",
@@ -168,5 +168,11 @@
   "devDependencies": {
     "tailwindcss": "^3.4.3",
     "use-resize-observer": "^9.0.2"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "core-js",
+      "core-js-pure"
+    ]
   }
 }

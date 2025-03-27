@@ -1,11 +1,12 @@
 import emotionStyled from '@emotion/styled'
 
-const Quote = emotionStyled.i(({ float }: any) => {
+const Quote = emotionStyled.i((props) => {
   return {
-    wordBreak: 'keep-all',
+    wordBreak: 'break-word',
     fontWeight: '800',
     display: 'inline-block',
-    float: float || 'left',
+    // @ts-ignore
+    float: props.float || 'left',
   }
 })
 

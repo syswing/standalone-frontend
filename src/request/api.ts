@@ -141,6 +141,11 @@ export default {
       url: '/routes/update',
       method: 'POST',
       data: {},
+    },
+    delete:{
+      url: '/routes/delete',
+      method: 'POST',
+      data: {},
     }
   },
   ocr:{

@@ -1,11 +1,17 @@
 import React from 'react'
-import { GridRowsProp, DataGrid } from '@mui/x-data-grid'
+import { GridRowsProp, DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import action from '../../request/action'
 import { Stack,Button } from "@mui/material";
 import FormDialog from './FormDialog';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 
 export default (props) => {
+
+  const dialogRef = React.useRef<any>(null)
+
   const [rows, setRows] = React.useState<GridRowsProp>([])
 
   const [loading, setLoading] = React.useState(false)
@@ -49,11 +55,43 @@ export default (props) => {
 
   const tableAdd = () => {
     console.log('add')
+    dialogRef.current.openDialog({
+      title:'新增',
+      columns:props.columns.filter(item=>item.add),
+      path:props.addPath
+    })
   }
+
+  const tableActions = () => {
+    return {
+      field: "actions",
+      type: "actions",
+      headerName:'操作',
+      width: 100,
+      getActions: (params) => [
+        props.actions.editPath && <GridActionsCellItem icon={<EditIcon />} label="Edit" />,
+        props.actions.removePath &&  <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Delete"
+          onClick={() => {
+            dialogRef.current.openDialog({
+              title:'请确认',
+              element:<div>是否删除该路由？</div>
+            })
+          }}
+        />,
+      ],
+    }
+  }
+
+  const tableColumns = React.useMemo(() => {
+    return props.actions ? props.columns.concat(tableActions()) : props.columns
+  }, [props.actions, props.columns])
+
 
   return (
     <>
-      <FormDialog ref="dialogRef"/>
+      <FormDialog ref={dialogRef} refresh={refresh}/>
       <Stack
         style={{ paddingLeft: 20 }}
         direction="row"
@@ -68,13 +106,13 @@ export default (props) => {
         </Button>
       </Stack>
       <DataGrid
+        {...props}
         rows={rows}
-        columns={props.columns}
+        columns={tableColumns}
         pagination
         checkboxSelection
         paginationModel={paginationModel}
         loading={loading}
-        {...props}
       />
     </>
   )
