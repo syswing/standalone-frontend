@@ -37,7 +37,10 @@ const FormDialog = React.forwardRef((props: any, ref) => {
       console.log('data', data, dialogParams)
       await action({
         path: dialogParams?.path,
-        params: data,
+        params: {
+          ...data,
+          ...dialogParams?.params,
+        } ,
       })
       closeDialog()
       props?.refresh()

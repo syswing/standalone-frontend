@@ -5,7 +5,7 @@ import { Stack,Button } from "@mui/material";
 import FormDialog from './FormDialog';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
+import BlockIcon from '@mui/icons-material/Block';
 
 
 export default (props) => {
@@ -69,17 +69,42 @@ export default (props) => {
       headerName:'操作',
       width: 100,
       getActions: (params) => [
-        props.actions.editPath && <GridActionsCellItem icon={<EditIcon />} label="Edit" />,
+        props.actions.editPath && <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
+          dialogRef.current.openDialog({
+            title:'编辑',
+            columns:props.columns.filter(item=>item.edit),
+            path:props.actions.editPath,
+            params:{
+              id:params.row.id
+            }
+          })
+        }}/>,
         props.actions.removePath &&  <GridActionsCellItem
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => {
             dialogRef.current.openDialog({
               title:'请确认',
-              element:<div>是否删除该路由？</div>
+              element:<div>是否删除该路由？</div>,
+              path:props.actions.removePath,
+              params:{
+                id:params.row.id
+              }
             })
           }}
         />,
+        props.actions.delPath && <GridActionsCellItem 
+        icon={<BlockIcon />} 
+        label="Block" onClick={() => {
+          dialogRef.current.openDialog({
+            title:'请确认',
+            element:<div>是否封禁该路由？</div>,
+            path:props.actions.delPath,
+            params:{
+              id:params.row.id
+            }
+          })
+        }}/>,
       ],
     }
   }
@@ -91,7 +116,7 @@ export default (props) => {
 
   return (
     <>
-      <FormDialog ref={dialogRef} refresh={refresh}/>
+      <FormDialog ref={dialogRef} refresh={() => refresh(true)}/>
       <Stack
         style={{ paddingLeft: 20 }}
         direction="row"

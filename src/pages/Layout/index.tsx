@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import { fetchBingPic } from '../../hooks/useApi'
+import useWindowSize from 'hooks/useWindowSize'
 
 
 // 'box-shadow:
@@ -94,19 +95,22 @@ const Layout = () => {
   const dispatch = useDispatch()
 
   const [showTopBar, setShowTopBar] = useState(false)
-
   // const navigate = useNavigate()
 
-  const bingPic = useSelector((state: any) => state.bingPicSliceReducer.bingPic)
-  const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
-  const bingUrl = useSelector((state:any) => state.bingPicSliceReducer.bingUrl)
+  // const bingPic = useSelector((state: any) => state.bingPicSliceReducer.bingPic)
+  // const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
+  // const bingUrl = useSelector((state:any) => state.bingPicSliceReducer.bingUrl)
+
+  const routes = useSelector((state: any) => state.routesReducer.routes)
+  // console.log('routes', routes)
+
 
   // console.log('currentPic',currentPic,bingPic)
   
-  useEffect(() => {
-    console.log('**')
-    fetchBingPic(dispatch)
-  }, [])
+  // useEffect(() => {
+  //   console.log('**')
+  //   fetchBingPic(dispatch)
+  // }, [])
 
   return (
     <Box
@@ -128,12 +132,13 @@ const Layout = () => {
       }}>
         <Grid className="pt-5" container spacing={1}>
           <Grid item xs={4}>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由1</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由2</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由3</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由4</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由5</NavBtnShadow>
-            <NavBtnShadow className='px-3 py-2 mb-2 glass'>测试路由6</NavBtnShadow>
+            {routes.map((item: any, index: number) => {
+              return (
+                <NavBtnShadow key={index} className='px-3 py-2 mb-2 glass'>
+                  {item.name}
+                </NavBtnShadow>
+              )
+            })}
 
             {/* <Card className="p-10" sx={{ maxWidth: 345 }}>
               <BounceAvatar
@@ -146,7 +151,11 @@ const Layout = () => {
             </Card> */}
           </Grid>
           <Grid item xs={8}>
-            <Card className='glass'>
+            <Card style={{
+              backgroundColor: 'transparent',
+              overflow: 'hidden',
+              boxShadow:'none'
+            }}>
               {/* <NavBar
                 showTopBar={showTopBar}
                 handleChangeShowTopBar={(e) => {

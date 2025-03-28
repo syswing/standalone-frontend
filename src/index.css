@@ -45,3 +45,35 @@ body h1 {
   margin: -30px;
   z-index: -3;
 }
+
+.markdown-toc {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.markdown-toc li {
+  margin: 8px 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.markdown-toc li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #007bff;
+  font-size: 16px;
+}
+
+.markdown-toc a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.markdown-toc a:hover {
+  color: #007bff;
+}

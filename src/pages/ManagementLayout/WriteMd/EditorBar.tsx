@@ -186,7 +186,6 @@ export default (props) => {
             inputRef.current?.click()
           }
         }}>
-          {/* http://localhost:3000/picture/getPic?picName=cardOutline_yyjk.png */}
           <li style={liStyle}>
             <IconToolTipWarp >
               <PhotoSizeSelectActualIcon sx={{ fontSize: 17 }} />

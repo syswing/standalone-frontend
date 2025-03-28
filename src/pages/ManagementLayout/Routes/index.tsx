@@ -7,11 +7,11 @@ const Routes = () => {
 
   const columns = [
     { field: 'id', headerName: '路由ID', width: 100 },
-    { field: 'name', headerName: '路由名称', width: 100,add:true },
-    { field: 'path', headerName: '路由路径', width: 100,add:true },
-    { field: 'title', headerName: '路由标题', width: 100,add:true },
-    { field: 'description', headerName: '路由描述', width: 100,add:true },
-    { field: 'icon', headerName: '路由图标', width: 100,add:true },
+    { field: 'name', headerName: '路由名称', width: 100,add:true,edit: true },
+    { field: 'path', headerName: '路由路径', width: 100,add:true,edit: true  },
+    { field: 'title', headerName: '路由标题', width: 100,add:true,edit: true  },
+    { field: 'description', headerName: '路由描述', width: 100,add:true,edit: true  },
+    { field: 'icon', headerName: '路由图标', width: 100,add:true,edit: true  },
     { field: 'parentId', headerName: '父级路由ID', width: 100,add:true },
     { field: 'isActive', headerName: '是否激活', width: 100,add:true },
     { field: 'isDeleted', headerName: '是否删除', width: 100,add:true },
@@ -27,6 +27,7 @@ const Routes = () => {
         actions={{
           removePath: '/routes/remove',
           editPath: '/routes/update',
+          delPath:'/routes/delete'
         }}
         columns={columns}
         pagination
