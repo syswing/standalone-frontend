@@ -12,9 +12,9 @@ const About = () => {
   const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
 
   return (
-    <div>
-      <Card className="p-10" sx={{ maxWidth: 345 }}>
-        <BounceAvatar sx={{ width: 88, height: 88 }} alt="syswing" src={AvatarImg} />
+    <div className="w-full">
+      <Card className="p-10 glass w-full">
+        <BounceAvatar className="mb-4" sx={{ width: 88, height: 88 }} alt="syswing" src={AvatarImg} />
         <Quote>{bingPic.images[currentPic]?.copyright}</Quote>
         <Quote float="right">----@bing {bingPic.images[currentPic]?.title}</Quote>
       </Card>

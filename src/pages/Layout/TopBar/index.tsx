@@ -30,6 +30,7 @@ const TopBar = ({ drawSwitch }) => {
   // const Height = 1080 * (size.width || 0) / 1920
 
   useEffect(() => {
+    
     canvasRef.current.style.backgroundImage = `url(${bingUrl + bingPic.images[currentPic].url})`
     canvasRef.current.style.backgroundSize = `cover`
     canvasRef.current.style.backgroundPosition = 'center'
@@ -90,6 +91,7 @@ const TopBar = ({ drawSwitch }) => {
         ctx.clearRect(0, 0, size.width, size.height)
       }
     }
+   
     return () => {
       pieces.length = 0
       window.cancelAnimationFrame(framHandler)

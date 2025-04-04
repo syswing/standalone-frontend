@@ -45,7 +45,7 @@ const Articles = () => {
   const size = useWindowSize()
   const divRef = React.useRef<any>(null)
 
-  console.log('size: ', divRef.current)
+  console.log('size: ', blogList)
 
   return (
     <>

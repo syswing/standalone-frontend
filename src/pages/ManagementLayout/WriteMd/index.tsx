@@ -56,6 +56,7 @@ export default () => {
           ref={textRef}
           style={{
             width: "100%",
+            height: "100%",
             flex: 1,
             padding: "40px 40px 80px",
             marginBottom: 0,

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Navigate } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import QQMusic from '../pages/QQMusic'
 import Songlist from '../pages/QQMusic/Songlist'
@@ -57,6 +58,10 @@ const routes = [
     element: <Layout />,
     children: [
       {
+        index: true, // 添加 index 路由
+        element: <Navigate to="/articles" replace />, // 重定向到 /articles
+      },
+      {
         path: 'blog',
         element: <Blog />,
         children: [
@@ -85,33 +90,31 @@ const routes = [
         element: <About />,
       },
       {
-        path: 'sakura',
-        element: <Sakura />,
-      },
-      {
         path: 'study',
         element: <Study />,
       },
-    ],
-  },
-  {
-    path: '/qqmusic',
-    element: <QQMusic />,
-  },
-  {
-    path: '/userinfo',
-    element: <UserInfo />,
-    children: [
       {
-        path: '/userinfo/songlist/:listId',
-        element: <Songlist />,
+        path: 'qqmusic',
+        element: <QQMusic />,
       },
       {
-        path: '/userinfo/info',
-        element: <Info />,
+        path: 'userinfo',
+        element: <UserInfo />,
+        children: [
+          {
+            path: '/userinfo/songlist/:listId',
+            element: <Songlist />,
+          },
+          {
+            path: '/userinfo/info',
+            element: <Info />,
+          },
+        ],
       },
     ],
   },
+  
+  
   {
     path: '/management',
     element: <ManagementLayout />,

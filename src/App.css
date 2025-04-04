@@ -37,6 +37,13 @@
   }
 }
 
-body{
+body {
   overflow: hidden;
 }
+
+
+@media (prefers-color-scheme:light){
+
+
+}
+
