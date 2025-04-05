@@ -43,6 +43,21 @@ export default {
       method: 'POST',
       data: {},
     },
+    update: {
+      url: '/adventure/update',
+      method: 'POST',
+      data: {},
+    },
+    publish: {
+      url: '/adventure/publish',
+      method: 'GET',
+      data: {},
+    },
+    unpublish: {
+      url: '/adventure/unpublish',
+      method: 'GET',
+      data: {},
+    }
   },
   QQMusic: {
     setUserCookie: {
@@ -120,6 +135,11 @@ export default {
       },
       data: {},
     },
+    update:{
+      url: '/picture/update',
+      method: 'POST',
+      data: {},
+    }
   },
   routes:{
     create:{

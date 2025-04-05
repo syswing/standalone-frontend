@@ -19,6 +19,7 @@ import LoadingConfirmBtn from "../../../components/LoadingConfirmBtn";
 import { Slide, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { TransitionProps } from "@mui/material/transitions";
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 
 const MdList = () => {
   const tags = useSelector((state: any) => state.tagsReducer.tags);
@@ -44,15 +45,50 @@ const MdList = () => {
         type: "actions",
         width: 100,
         getActions: (params) => [
-          <GridActionsCellItem icon={<EditIcon />} label="Edit" />,
+          <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
+            console.log("params", params);
+            navigate("/management/writeMd", {
+              state: {
+                id: params.row.id,
+                name: params.row.name,
+                tag: params.row.tag,
+                content: params.row.content,
+              },
+            });
+          }} />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
             onClick={() => {
-              console.log(params);
-              setDialogParams(params);
+              setDialogParams({
+                ...params,
+                dialogTip: "确定要删除？",
+                action:async () => action({
+                  path: "/adventure/delete",
+                  params: {
+                    id: params.id,
+                  },
+                })
+              });
             }}
           />,
+          <GridActionsCellItem
+            icon={<VerticalAlignBottomIcon />}
+            label="Publish"
+            onClick={() => {
+              setDialogParams({
+                ...params,
+                dialogTip: `确定要${params.row.isPublish ? '下架':'发布'}？`,
+                action:async () => action({
+                  path: `/adventure/${  params.row.isPublish ? 'unpublish' : 'publish'}`,
+                  params: {
+                    id: params.id,
+                  },
+                })
+              });
+              
+            }}
+          />
         ],
       },
     ];
@@ -123,6 +159,7 @@ const MdList = () => {
     //   return <Slide direction="up" ref={ref} {...props} />;
     // });
 
+
     return (
       <Dialog
         sx={{ m: 0, p: 2 }}
@@ -134,17 +171,12 @@ const MdList = () => {
       >
         <DialogTitle>确认提示</DialogTitle>
         <DialogContent dividers>
-          {`确定要删除？${dialogParams.row.name}`}
+          {`${dialogParams.dialogTip}${dialogParams.row.name}`}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleNo}>不</Button>
           <LoadingConfirmBtn
-            action={async () => action({
-              path: "/adventure/delete",
-              params: {
-                id: dialogParams.id,
-              },
-            })}
+            action={dialogParams.action}
             text="是"
             callback={async (result) => {
               console.log("result", result);
