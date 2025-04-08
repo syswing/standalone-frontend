@@ -72,7 +72,7 @@ const Articles = () => {
                   <CardMedia
                     sx={{ height: 130, objectFit: 'cover' }}
                     component="img"
-                    image={test1}
+                    image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
                     alt="green iguana"
                   />
                 </Grid>
