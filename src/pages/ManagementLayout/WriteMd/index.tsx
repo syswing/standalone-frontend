@@ -29,8 +29,6 @@ export default () => {
   const routeState = location.state || {} // 如果没有 state，默认为空对象
   const { id, name, tag, content } = routeState
 
-  console.log('routeState', routeState)
-
   const navigate = useNavigate()
 
   React.useEffect(() => {
