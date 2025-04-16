@@ -23,6 +23,8 @@ import dayjs from 'dayjs'
 import ArticleTags from '../../../components/ArticleTags'
 import { styled } from '@mui/material/styles'
 import useWindowSize from 'hooks/useWindowSize'
+import VisitArticle from './VisitArticle'
+import CommentArticle from './CommentArticle'
 
 const Articles = () => {
   const dispatch = useDispatch()
@@ -55,38 +57,92 @@ const Articles = () => {
         <div
           ref={divRef}
           style={{
-            height: size.height - 40,
+            height: size.height ?? 0 - 40,
             overflowY: 'auto',
-            marginRight: divRef.current?.scrollHeight > divRef.current?.clientHeight ? "-15px" : 0
+            marginRight: divRef.current?.scrollHeight > divRef.current?.clientHeight ? '-15px' : 0,
           }}
         >
           {Array.from(blogList).map((blog: any, index) => (
-            <Card key={index} sx={{
-              backgroundColor:'transparent'
-            }} className="mb-2">
-              <Grid container>
-                <Grid
-                  item
-                  xs={4}
-                >
-                  <CardMedia
-                    sx={{ height: 130, objectFit: 'cover' }}
-                    component="img"
-                    image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
-                    alt="green iguana"
-                  />
+            <Card
+              key={index}
+              sx={{
+                backgroundColor: 'transparent',
+              }}
+              className="mb-2"
+            >
+              {size.width > 600 ? (
+                <Grid container>
+                  <Grid
+                    item
+                    xs={4}
+                  >
+                    <CardMedia
+                      sx={{ height: 130, objectFit: 'cover' }}
+                      component="img"
+                      image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
+                      alt="green iguana"
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={8}
+                    className="glass"
+                  >
+                    <CardActionArea
+                      onClick={() => {
+                        dispatch(setBlogMd(blog))
+                        navigate(`/articles/${blog.name}`)
+                      }}
+                    >
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="div"
+                        >
+                          {blog.name}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions>
+                      {blog.tag && (
+                        <ArticleTags
+                          tags={tags}
+                          artTags={blog.tag}
+                        />
+                      )}
+                      <UpArticle
+                        up={blog.up}
+                        id={blog.id}
+                      />
+                      <VisitArticle visit={blog.visit} />
+                      <CommentArticle
+                        id={blog.id}
+                        comment={blog.reply_comment?.split(',').length || 0}
+                      />
+                      <Typography
+                        className="mr-2"
+                        style={{ marginLeft: 'auto' }}
+                      >
+                        {dayjs(blog.create_at).format('YYYY-MM-DD')}
+                      </Typography>
+                    </CardActions>
+                  </Grid>
                 </Grid>
-                <Grid
-                  item
-                  xs={8}
-                  className="glass"
-                >
+              ) : (
+                <div className="glass">
                   <CardActionArea
                     onClick={() => {
                       dispatch(setBlogMd(blog))
                       navigate(`/articles/${blog.name}`)
                     }}
                   >
+                    <CardMedia
+                      sx={{ height: 130, objectFit: 'cover' }}
+                      component="img"
+                      image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
+                      alt="green iguana"
+                    />
                     <CardContent>
                       <Typography
                         gutterBottom
@@ -108,68 +164,22 @@ const Articles = () => {
                       up={blog.up}
                       id={blog.id}
                     />
-                    <Typography style={{ marginLeft: 'auto' }}>{dayjs(blog.create_at).format('YYYY-MM-DD')}</Typography>
+                    <VisitArticle visit={blog.visit} />
+                    <CommentArticle
+                      id={blog.id}
+                      comment={blog.reply_comment?.split(',').length || 0}
+                    />
+                    <Typography
+                      className="mr-2"
+                      style={{ marginLeft: 'auto' }}
+                    >
+                      {dayjs(blog.create_at).format('YYYY-MM-DD')}
+                    </Typography>
                   </CardActions>
-                </Grid>
-              </Grid>
-
-              {/* <CardActions>
-                <UpArticle up={blog.up} id={blog.id} />
-                <Typography style={{ marginLeft: "auto" }}>
-                  {dayjs(blog.create_at).format("YYYY-MM-DD")}
-                </Typography>
-              </CardActions> */}
+                </div>
+              )}
             </Card>
           ))}
-          {/* <Grid
-            container
-            className="article-container"
-            style={{
-              // backdropFilter: "blur(8px)",
-              // background: "rgba(255, 255, 255, 0.1)",
-              // backgroundColor: "rgba(255, 255, 255, 0.1)",
-            }}
-          > */}
-          {/* <Masonry columns={3} spacing={2}> */}
-          {/* {Array.from(blogList).map((blog: any, index) => (
-                <div style={{
-                  float:'left',
-                  marginRight:10,
-                  marginBottom:10
-                }}>
-                  <Card sx={{ maxWidth: 300 }}>
-                    <CardActionArea
-                      onClick={() => {
-                        dispatch(setBlogMd(blog));
-                        navigate(`/articles/${blog.name}`);
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={th2}
-                        alt="green iguana"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {blog.name}
-                        </Typography>
-                        {blog.tag && (
-                          <ArticleTags tags={tags} artTags={blog.tag} />
-                        )}
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                      <UpArticle up={blog.up} id={blog.id} />
-                      <Typography style={{ marginLeft: "auto" }}>
-                        {dayjs(blog.create_at).format("YYYY-MM-DD")}
-                      </Typography>
-                    </CardActions>
-                  </Card>
-                </div>
-              ))} */}
-          {/* </Masonry> */}
-          {/* </Grid> */}
         </div>
       )}
     </>

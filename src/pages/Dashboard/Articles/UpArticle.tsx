@@ -3,7 +3,8 @@ import { IconButton, Typography } from '@mui/material'
 import action from '../../../request/action';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { pink } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
+
 
 export default ({up,id}) => {
 	const [isClicked,setIsClicked] = useState(false)
@@ -22,7 +23,7 @@ export default ({up,id}) => {
 				setIsClicked(true)
 			}
 		}}>
-			{isClicked ? <FavoriteIcon color={'secondary'}/> : <FavoriteBorderIcon color={'secondary'}/>}
+			{isClicked ? <FavoriteIcon sx={{color:red[500]}}/> : <FavoriteBorderIcon sx={{color:red[500]}}/>}
 		</IconButton>
 		<Typography>{curUp}</Typography>
 	</>

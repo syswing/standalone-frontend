@@ -57,6 +57,11 @@ export default {
       url: '/adventure/unpublish',
       method: 'GET',
       data: {},
+    },
+    visitMd: {
+      url: '/adventure/visitMd',
+      method: 'GET',
+      data: {}
     }
   },
   QQMusic: {
@@ -178,4 +183,19 @@ export default {
       data: {},
     },
   },
+  comment:{
+    list:{
+      url: '/comment/list',
+      method: 'GET',
+      data: {
+        page: '1',
+        size: '100',
+      },
+    },
+    save:{
+      url: '/comment/save',
+      method: 'POST',
+      data: {},
+    },
+  }
 }
