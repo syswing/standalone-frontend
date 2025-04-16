@@ -8,9 +8,11 @@ import NavBar from './NavBar'
 import { setBingPic } from '../../store/bingPic'
 import action from '../../request/action'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useLocation, redirect ,Outlet } from 'react-router-dom'
+import { useNavigate, useLocation, redirect, Outlet, useOutlet } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import MatchedLink from './MatchedLink'
+import useWindowSize from 'hooks/useWindowSize'
+import MarkdownToc from 'pages/Dashboard/Articles/MarkdownToc'
 
 const BackgroundBar = ({ showTopBar }) => {
   const dispatch = useDispatch()
@@ -43,6 +45,9 @@ const BackgroundBar = ({ showTopBar }) => {
 const Layout = () => {
   const [showTopBar, setShowTopBar] = useState(false) // 动效开关
   const routes = useSelector((state: any) => state.routesReducer.routes)
+  const currentBlog = useSelector((state: any) => state.currentBlogReducer.currentBlog)
+
+  const size = useWindowSize()
 
   return (
     <Box
@@ -54,6 +59,7 @@ const Layout = () => {
       }}
     >
       <Container
+        maxWidth={'xl'}
         className="absolute z-10"
         style={{
           transform: 'translateX(-50%)',
@@ -65,23 +71,29 @@ const Layout = () => {
           container
           spacing={1}
         >
+          {size.width > 600 && (
+            <Grid
+              item
+              xs={2}
+              className="mr-4"
+            >
+              {routes
+                .filter((route) => !route.isDeleted)
+                .map((item: any, index: number) => {
+                  return (
+                    <MatchedLink
+                      key={index}
+                      path={item.path}
+                      name={item.name}
+                    />
+                  )
+                })}
+            </Grid>
+          )}
+
           <Grid
             item
-            xs={4}
-          >
-            {routes.map((item: any, index: number) => {
-              return (
-                <MatchedLink
-                  key={index}
-                  path={item.path}
-                  name={item.name}
-                />
-              )
-            })}
-          </Grid>
-          <Grid
-            item
-            xs={8}
+            xs={size.width > 600 ? 9 : 12}
           >
             <Card
               style={{

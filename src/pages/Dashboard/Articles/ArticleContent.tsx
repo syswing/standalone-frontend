@@ -17,7 +17,8 @@ export default () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs  style={{
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingRight:size.width > 600 ? 0 : 10,
       }}>
         <Paper ref={divRef} elevation={4} className="glass" style={{
           height: size.height - 40,
@@ -36,7 +37,7 @@ export default () => {
           ></div>
         </Paper>
       </Grid>
-      {currentBlog.tocContent && <Grid item xs="auto" style={{
+      {size.width > 600 && currentBlog.tocContent && <Grid item xs="auto" style={{
 				width:"13em"
 			}}>
         <MarkdownToc />
