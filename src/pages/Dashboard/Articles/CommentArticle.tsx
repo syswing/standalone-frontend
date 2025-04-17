@@ -1,18 +1,10 @@
-
 import React, { useState } from 'react'
-import CommentIcon from '@mui/icons-material/Comment';
+import CommentIcon from '@mui/icons-material/Comment'
 import { IconButton, Typography } from '@mui/material'
-import action from 'request/action';
-import {
-  TextField,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-} from '@mui/material'
+import action from 'request/action'
+import { TextField, Button, List, ListItem, ListItemText, Divider } from '@mui/material'
 
-export default ({comment,id}) => {
+export default ({ comment, id }) => {
   const [comments, setComments] = useState<any[]>([])
   const [newComment, setNewComment] = useState('')
   const [showComments, setShowComments] = useState(false)
@@ -39,12 +31,13 @@ export default ({comment,id}) => {
     setNewComment('')
     fetchComments()
   }
-	return <>
-		<IconButton onClick={fetchComments}>
-      <CommentIcon />
-		</IconButton>
-		<Typography>{comment}</Typography>
-    {showComments && (
+  return (
+    <>
+      <IconButton onClick={fetchComments}>
+        <CommentIcon />
+      </IconButton>
+      <Typography>{comment}</Typography>
+      {showComments && (
         <div>
           <List>
             {comments.map((comment, index) => (
@@ -78,5 +71,6 @@ export default ({comment,id}) => {
           </Button>
         </div>
       )}
-	</>
+    </>
+  )
 }

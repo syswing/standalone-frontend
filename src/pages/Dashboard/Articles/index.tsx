@@ -25,6 +25,7 @@ import { styled } from '@mui/material/styles'
 import useWindowSize from 'hooks/useWindowSize'
 import VisitArticle from './VisitArticle'
 import CommentArticle from './CommentArticle'
+import CommentList from './CommentList'
 
 const Articles = () => {
   const dispatch = useDispatch()
@@ -178,6 +179,7 @@ const Articles = () => {
                   </CardActions>
                 </div>
               )}
+              <CommentList blog={blog}></CommentList>
             </Card>
           ))}
         </div>
