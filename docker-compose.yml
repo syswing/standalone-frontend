@@ -1,0 +1,13 @@
+
+services:
+  frontend:
+    build: .  # 使用当前目录的Dockerfile
+    image: nginx  # 可选：指定镜像名称
+    container_name: standalone-frontend  # 可选：固定容器名
+    ports:
+      - "7777:7777"  # 主机端口:容器端口（nginx默认监听80）
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # 覆盖配置
+      - ./build:/usr/share/nginx/html  # 实时同步代码
+    restart: unless-stopped  # 自动重启策略
+    network_mode: host
