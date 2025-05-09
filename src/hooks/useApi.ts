@@ -15,6 +15,10 @@ export const fetchTags = async (dispatch) => {
 export const fetchRoutes = async (dispatch) => {
   const routes = await action({
     path: '/routes/list',
+    params: {
+      page:1,
+      size:999
+    },
   })
   dispatch(setRoutes(routes.data))
 }

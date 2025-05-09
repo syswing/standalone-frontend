@@ -15,7 +15,6 @@ export default () => {
     style={{
       height:'800px',
       overflow:'auto'
-      
     }}
     className='px-3'
   >

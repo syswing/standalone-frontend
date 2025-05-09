@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Card,
@@ -35,6 +35,15 @@ const Articles = () => {
   const blogList = useSelector((state: any) => state.blogListReducer.blogList)
   const tags = useSelector((state: any) => state.tagsReducer.tags)
 
+  const [showCommentsMap, setShowCommentsMap] = useState<{ [key: string]: boolean }>({})
+  
+  const toggleComments = (id: string) => {
+    setShowCommentsMap((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }))
+  }
+
   useEffect(() => {
     const fetchArticleList = async () => {
       const result = await action({
@@ -58,7 +67,7 @@ const Articles = () => {
         <div
           ref={divRef}
           style={{
-            height: size.height ?? 0 - 40,
+            height: (size.height ?? 0) - 40,
             overflowY: 'auto',
             marginRight: divRef.current?.scrollHeight > divRef.current?.clientHeight ? '-15px' : 0,
           }}
@@ -69,7 +78,7 @@ const Articles = () => {
               sx={{
                 backgroundColor: 'transparent',
               }}
-              className="mb-2"
+              className="mb-2 mr-4"
             >
               {size.width > 600 ? (
                 <Grid container>
@@ -119,7 +128,8 @@ const Articles = () => {
                       <VisitArticle visit={blog.visit} />
                       <CommentArticle
                         id={blog.id}
-                        comment={blog.reply_comment?.split(',').length || 0}
+                        comment={blog.commentCount}
+                        showComments={() => toggleComments(blog.id)}
                       />
                       <Typography
                         className="mr-2"
@@ -168,7 +178,8 @@ const Articles = () => {
                     <VisitArticle visit={blog.visit} />
                     <CommentArticle
                       id={blog.id}
-                      comment={blog.reply_comment?.split(',').length || 0}
+                      comment={blog.commentCount}
+                      showComments={() => toggleComments(blog.id)}
                     />
                     <Typography
                       className="mr-2"
@@ -179,7 +190,7 @@ const Articles = () => {
                   </CardActions>
                 </div>
               )}
-              <CommentList blog={blog}></CommentList>
+              {showCommentsMap[blog.id] && <CommentList blog={blog} />}
             </Card>
           ))}
         </div>

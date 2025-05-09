@@ -23,6 +23,7 @@ import Resume from '../pages/Resume'
 import Components from '../pages/Components'
 import Routes from '../pages/ManagementLayout/Routes'
 import Ocr from '../pages/ManagementLayout/Ocr'
+import Comments from 'pages/ManagementLayout/Comments'
   
 export const managementMenu = [
   {
@@ -44,6 +45,11 @@ export const managementMenu = [
     path: '/management/routes',
     title: '路由管理',
     element: <Routes />,
+  },
+  {
+    path: '/management/comments',
+    title: '评论管理',
+    element: <Comments />,
   },
   {
     path: '/management/ocr',

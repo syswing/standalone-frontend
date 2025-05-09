@@ -16,8 +16,10 @@ export default (props) => {
 
   const [loading, setLoading] = React.useState(false)
 
+  const { paginationPage = 'page', paginationPagePageSize = 'size' } = props.pagination
+
   const [paginationModel, setPaginationModel] = React.useState({
-    page: 0,
+    page: 1,
     pageSize: 5,
   })
 
@@ -25,8 +27,8 @@ export default (props) => {
     const res = await action({
       path: props.path,
       params: {
-        page,
-        pageSize: paginationModel.pageSize,
+        [paginationPage]:page,
+        [paginationPagePageSize]: paginationModel.pageSize,
       },
     })
 
@@ -68,51 +70,72 @@ export default (props) => {
       type: "actions",
       headerName:'操作',
       width: 100,
-      getActions: (params) => [
-        props.actions.editPath && <GridActionsCellItem icon={<EditIcon />} label="Edit" onClick={() => {
-          dialogRef.current.openDialog({
-            title:'编辑',
-            columns:props.columns.filter(item=>item.edit),
-            path:props.actions.editPath,
-            params:{
-              id:params.row.id
-            }
-          })
-        }}/>,
-        props.actions.removePath &&  <GridActionsCellItem
-          icon={<DeleteIcon />}
-          label="Delete"
-          onClick={() => {
-            dialogRef.current.openDialog({
-              title:'请确认',
-              element:<div>是否删除该路由？</div>,
-              path:props.actions.removePath,
-              params:{
-                id:params.row.id
-              }
-            })
-          }}
-        />,
-        props.actions.delPath && <GridActionsCellItem 
-        icon={<BlockIcon />} 
-        label="Block" onClick={() => {
-          dialogRef.current.openDialog({
-            title:'请确认',
-            element:<div>是否封禁该路由？</div>,
-            path:props.actions.delPath,
-            params:{
-              id:params.row.id
-            }
-          })
-        }}/>,
-      ],
+      getActions: (params) => {
+        const actions = [] as Array<React.ReactElement<any>>;
+        if (props.actions.editPath) {
+          actions.push(
+            <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Edit"
+              onClick={() => {
+                dialogRef.current.openDialog({
+                  title: '编辑',
+                  columns: props.columns.filter(item => item.edit),
+                  path: props.actions.editPath,
+                  params: { id: params.row.id },
+                });
+              }}
+            />
+          );
+        }
+        if (props.actions.removePath) {
+          actions.push(
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => {
+                dialogRef.current.openDialog({
+                  title: '请确认',
+                  element: <div>是否删除该路由？</div>,
+                  path: props.actions.removePath,
+                  params: { id: params.row.id },
+                });
+              }}
+            />
+          );
+        }
+        if (props.actions.delPath) {
+          actions.push(
+            <GridActionsCellItem
+              icon={<BlockIcon />}
+              label="Block"
+              onClick={() => {
+                dialogRef.current.openDialog({
+                  title: '请确认',
+                  element: <div>是否封禁该路由？</div>,
+                  path: props.actions.delPath,
+                  params: { id: params.row.id },
+                });
+              }}
+            />
+          );
+        }
+        return actions;
+      },
     }
   }
 
   const tableColumns = React.useMemo(() => {
-    return props.actions ? props.columns.concat(tableActions()) : props.columns
+    return props.actions && props.columns
+      ? props.columns.concat(tableActions())
+      : props.columns || [];
   }, [props.actions, props.columns])
 
+  // console.log('props.actions:', props.actions);
+  // console.log('props.columns:', props.columns);
+  // console.log('tableColumns:', tableColumns);
+
+  
 
   return (
     <>
@@ -132,11 +155,14 @@ export default (props) => {
       </Stack>
       <DataGrid
         {...props}
-        rows={rows}
-        columns={tableColumns}
+        rows={rows || []}
+        columns={tableColumns || []}
         pagination
         checkboxSelection
-        paginationModel={paginationModel}
+        paginationModel={{
+          page: paginationModel.page - 1 ,
+          pageSize: paginationModel.pageSize,
+        }}
         loading={loading}
       />
     </>

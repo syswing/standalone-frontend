@@ -30,7 +30,10 @@ const Routes = () => {
           delPath:'/routes/delete'
         }}
         columns={columns}
-        pagination
+        pagination={{
+          page:'page',
+          pageSize:'size',
+        }}
         checkboxSelection
       />
     </div>
