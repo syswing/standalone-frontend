@@ -1,5 +1,5 @@
 import { Grid, Paper } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import 'github-markdown-css/github-markdown.css'
 import MarkdownToc from './MarkdownToc'
@@ -10,8 +10,7 @@ export default () => {
   const currentBlog = useSelector((state: any) => state.currentBlogReducer.currentBlog)
   const divRef = React.useRef<any>(null)
   const size = useWindowSize()
-
-  // console.log('divRef', divRef.current)
+  const [isScrollbarVisible, setIsScrollbarVisible] = useState(false)
 
   useEffect(() => {
     const visitMd = async () => {
@@ -25,6 +24,28 @@ export default () => {
     visitMd()
   }, [])
 
+  useEffect(() => {
+    const checkScrollbar = () => {
+      if (divRef.current) {
+        setIsScrollbarVisible(divRef.current.scrollHeight > divRef.current.clientHeight)
+      }
+    }
+
+    checkScrollbar()
+
+    // Optional: Add a resize observer to handle dynamic content changes
+    const resizeObserver = new ResizeObserver(checkScrollbar)
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current)
+    }
+
+    return () => {
+      if (divRef.current) {
+        resizeObserver.unobserve(divRef.current)
+      }
+    }
+  }, [])
+
   return (
     <Grid
       container
@@ -36,6 +57,7 @@ export default () => {
         style={{
           overflow: 'hidden',
           paddingRight: size.width > 600 ? 0 : 10,
+          backdropFilter:'blur(20px)'
         }}
       >
         <Paper
@@ -45,7 +67,7 @@ export default () => {
           style={{
             height: size.height - 40,
             overflowY: 'auto',
-            marginRight: divRef.current?.scrollHeight > divRef.current?.clientHeight ? '-15px' : 0,
+            marginRight: isScrollbarVisible ? '-15px' : 0, // Adjust margin based on scrollbar visibility
           }}
         >
           <div

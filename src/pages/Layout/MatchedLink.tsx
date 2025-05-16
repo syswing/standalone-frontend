@@ -16,13 +16,13 @@ const MatchedLink = ({ path, name }) => {
 
   console.log('match', match)
 
-  const notMatchedStyle = 'px-3 py-4 mb-2 glass hover:bg-gray-100 transition duration-300 ease-in-out cursor-pointer'
+  const notMatchedStyle = 'px-3 py-4 mb-2 glass  transition duration-300 ease-in-out cursor-pointer'
 
-  const matchedStyle = 'px-3 py-4 mb-2 transition duration-300 ease-in-out shadow-none '
+  const matchedStyle = 'px-3 py-4 mb-2 transition hover:bg-gray-100 hover:glass duration-300 ease-in-out shadow-none '
 
   return (
     <Link to={path}>
-      <NavBtnShadow className={match ? matchedStyle : notMatchedStyle}>
+      <NavBtnShadow className={match ? notMatchedStyle :  matchedStyle}>
         {name}
       </NavBtnShadow>
     </Link>

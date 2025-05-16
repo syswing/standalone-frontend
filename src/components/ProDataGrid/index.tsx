@@ -96,7 +96,7 @@ export default (props) => {
               onClick={() => {
                 dialogRef.current.openDialog({
                   title: '请确认',
-                  element: <div>是否删除该路由？</div>,
+                  element: <div>是否删除？</div>,
                   path: props.actions.removePath,
                   params: { id: params.row.id },
                 });
@@ -112,7 +112,7 @@ export default (props) => {
               onClick={() => {
                 dialogRef.current.openDialog({
                   title: '请确认',
-                  element: <div>是否封禁该路由？</div>,
+                  element: <div>是否封禁？</div>,
                   path: props.actions.delPath,
                   params: { id: params.row.id },
                 });
@@ -159,9 +159,16 @@ export default (props) => {
         columns={tableColumns || []}
         pagination
         checkboxSelection
+        rowCount={100}
         paginationModel={{
           page: paginationModel.page - 1 ,
           pageSize: paginationModel.pageSize,
+        }}
+        onPaginationModelChange={(paginationModel) => {
+          setPaginationModel({
+            page: paginationModel.page + 1,
+            pageSize: paginationModel.pageSize,
+          })
         }}
         loading={loading}
       />

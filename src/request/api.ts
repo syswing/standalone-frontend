@@ -197,5 +197,10 @@ export default {
       method: 'POST',
       data: {},
     },
+    delete:{
+      url: '/comment/delete',
+      method: 'POST',
+      data: {},
+    }
   }
 }
