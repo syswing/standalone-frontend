@@ -8,12 +8,11 @@ import shadows from '@mui/material/styles/shadows'
 import { frontPic, nextPic } from '../../../store/bingPic'
 import { useDispatch } from 'react-redux'
 
-const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType; color: string; matched?: any }>(
+const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType; color: string; matched?: number }>(
   ({ color, matched }) => {
     const matchedStyle = matched
       ? {
           color: '#fff',
-          // transform: 'translateX(-20px)',
           backgroundColor: colors[`${color}`][400],
           boxShadow: shadows[2],
         }
@@ -23,7 +22,6 @@ const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementT
       ...matchedStyle,
       '&:hover': {
         color: '#fff',
-        // transform: 'translateX(-20px)',
         backgroundColor: colors[`${color}`][400],
       },
       '& > a': {
@@ -89,13 +87,6 @@ const NavBar = ({ showTopBar, handleChangeShowTopBar }) => {
         },
       })}
     >
-      {/* <Stack direction="row" spacing={2}> */}
-      {/* <MatchedLink to={'/articles'} primary={'如是我闻'}/> */}
-      {/* <MatchedLink to={'/player'} primary={'音乐播放器'}/> */}
-      {/* <MatchedLink to={'/sakura'} primary={'海的那边'}/> */}
-      {/* <MatchedLink to={'/sakura'} primary={'大江大河'}/> */}
-      {/* <MatchedLink to={'/study'} primary={'一见如故'}/> */}
-      {/* </Stack> */}
       {/* <Stack direction="row" spacing={2} style={{
 			marginLeft:'auto',
 			marginRight:30
