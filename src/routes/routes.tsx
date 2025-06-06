@@ -24,6 +24,7 @@ import Components from '../pages/Components'
 import Routes from '../pages/ManagementLayout/Routes'
 import Ocr from '../pages/ManagementLayout/Ocr'
 import Comments from 'pages/ManagementLayout/Comments'
+import DeepseekChat from 'components/DeepseekChat'
   
 export const managementMenu = [
   {
@@ -56,6 +57,11 @@ export const managementMenu = [
     title: 'ocr',
     element: <Ocr />,
   },
+  {
+    path: '/management/deepseek',
+    title: 'deepseek',
+    element: <DeepseekChat />,
+  }
 ]
 
 const routes = [
