@@ -125,8 +125,6 @@ const routes = [
       },
     ],
   },
-  
-  
   {
     path: '/management',
     element: <ManagementLayout />,

@@ -56,7 +56,7 @@ const Layout = () => {
         backgroundColor: '#ebebeb',
       }}
     >
-      {size.width <= 600 && <MobileNavBar />}
+      {/* {size.width <= 600 && <MobileNavBar />} */}
       <Container
         maxWidth={'xl'}
         className="absolute z-10"

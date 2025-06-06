@@ -5,6 +5,7 @@ import 'github-markdown-css/github-markdown.css'
 import MarkdownToc from './MarkdownToc'
 import useWindowSize from 'hooks/useWindowSize'
 import action from 'request/action'
+import DeepseekChat from 'components/DeepseekChat'
 
 export default () => {
   const currentBlog = useSelector((state: any) => state.currentBlogReducer.currentBlog)
@@ -46,6 +47,8 @@ export default () => {
     }
   }, [])
 
+  console.log('currentBlog',currentBlog)
+
   return (
     <Grid
       container
@@ -65,12 +68,19 @@ export default () => {
           elevation={4}
           className="glass"
           style={{
-            height: size.height - 40,
+            height: (size?.height || 0) - 40,
             overflowY: 'auto',
             marginRight: isScrollbarVisible ? '-15px' : 0, // Adjust margin based on scrollbar visibility
+            scrollbarWidth: isScrollbarVisible ? 'auto' : 'none', // For Firefox
+            msOverflowStyle: isScrollbarVisible ? 'auto' : 'none', // For IE and Edge
+          }}
+          sx={{
+            '&::-webkit-scrollbar': {
+              display: isScrollbarVisible ? 'auto' : 'none', // For Chrome, Safari, and newer versions of Opera
+            }
           }}
         >
-          <div
+          {currentBlog.name == 'deepseek测试' ? <DeepseekChat/> : <div
             className="markdown-body"
             style={{
               padding: 20,
@@ -79,9 +89,10 @@ export default () => {
               background: 'transparent',
             }}
             dangerouslySetInnerHTML={{ __html: currentBlog.md }}
-          ></div>
+          ></div>}
         </Paper>
       </Grid>
+      {/* markdownToc */}
       {size.width > 600 && currentBlog.tocContent && (
         <Grid
           item
