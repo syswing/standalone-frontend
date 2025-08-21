@@ -121,10 +121,10 @@ const Articles = () => {
                           artTags={blog.tag}
                         />
                       )}
-                      <UpArticle
+                      {/* <UpArticle
                         up={blog.up}
                         id={blog.id}
-                      />
+                      /> */}
                       <VisitArticle visit={blog.visit} />
                       <CommentArticle
                         id={blog.id}
@@ -171,10 +171,10 @@ const Articles = () => {
                         artTags={blog.tag}
                       />
                     )}
-                    <UpArticle
+                    {/* <UpArticle
                       up={blog.up}
                       id={blog.id}
-                    />
+                    /> */}
                     <VisitArticle visit={blog.visit} />
                     <CommentArticle
                       id={blog.id}

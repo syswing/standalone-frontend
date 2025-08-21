@@ -25,6 +25,7 @@ import Routes from '../pages/ManagementLayout/Routes'
 import Ocr from '../pages/ManagementLayout/Ocr'
 import Comments from 'pages/ManagementLayout/Comments'
 import DeepseekChat from 'components/DeepseekChat'
+import Login from 'pages/Login'
   
 export const managementMenu = [
   {
@@ -143,6 +144,10 @@ const routes = [
   {
     path: '/components',
     element: <Components />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]
 

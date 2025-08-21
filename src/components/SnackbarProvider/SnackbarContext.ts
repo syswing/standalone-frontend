@@ -1,3 +1,6 @@
 import React from 'react'
-const SnackbarContext = React.createContext(null)
+import { SnackbarContextType } from './useSnackbar'
+
+const SnackbarContext = React.createContext<SnackbarContextType | null>(null)
+
 export default SnackbarContext

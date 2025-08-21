@@ -202,5 +202,12 @@ export default {
       method: 'POST',
       data: {},
     }
+  },
+  user:{
+    login:{
+      url: '/user/admin_login',
+      method: 'POST',
+      data: {},
+    },
   }
 }
