@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material'
 import LoadingConfirmBtn from 'components/LoadingConfirmBtn'
 import action from 'request/action'
@@ -10,6 +10,15 @@ const FormDialog = React.forwardRef((props: any, ref) => {
   const [dialogParams, setDialogParams] = React.useState<any>(null)
   const [modalLoading, setModalLoading] = React.useState<boolean>(false)
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<any>()
+
   React.useImperativeHandle(ref, () => ({
     openDialog,
     closeDialog,
@@ -17,33 +26,35 @@ const FormDialog = React.forwardRef((props: any, ref) => {
 
   const openDialog = (params) => {
     setDialogParams(params)
+    
+    // If we have initial values in params, set them in the form
+    if (params?.initialValues) {
+      Object.keys(params.initialValues).forEach(key => {
+        setValue(key, params.initialValues[key])
+      })
+    } else {
+      // Reset form when opening without initial values
+      reset()
+    }
   }
 
   const closeDialog = () => {
+    reset() // Reset form when closing
     setDialogParams(null)
   }
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<any>()
-
-  const onSubmit: SubmitHandler<any> = async (data) => {
+  // Handle simple confirmation dialogs without forms
+  const handleConfirm = async () => {
+    if (!dialogParams?.path) return
+    
     setModalLoading(true)
     try {
-      console.log('data', data, dialogParams)
       await action({
-        path: dialogParams?.path,
-        params: {
-          ...data,
-          ...dialogParams?.params,
-        } ,
+        path: dialogParams.path,
+        params: dialogParams.params || {},
       })
       closeDialog()
-      props?.refresh()
+      props?.refresh?.()
     } catch (error) {
       console.error(error)
     } finally {
@@ -51,48 +62,105 @@ const FormDialog = React.forwardRef((props: any, ref) => {
     }
   }
 
+  const onSubmit: SubmitHandler<any> = async (data) => {
+    if (!dialogParams?.path) return
+    
+    setModalLoading(true)
+    try {
+      await action({
+        path: dialogParams.path,
+        params: {
+          ...data,
+          ...(dialogParams?.params || {}),
+        },
+      })
+      closeDialog()
+      props?.refresh?.()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setModalLoading(false)
+    }
+  }
+
+  // Determine if this is a form dialog or just a confirmation dialog
+  const isFormDialog = dialogParams?.columns && dialogParams.columns.length > 0
+
   return (
     <Dialog
       sx={{ m: 0, p: 2 }}
       open={!!dialogParams}
+      onClose={() => !modalLoading && closeDialog()}
+      maxWidth="sm"
+      fullWidth
     >
       <DialogTitle>{dialogParams?.title || '--'}</DialogTitle>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent dividers>
-          {dialogParams?.columns?.map((item) => {
-            return (
+      
+      {isFormDialog ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent dividers>
+            {dialogParams?.columns?.map((item) => (
               <TextField
                 key={item.field}
                 {...register(item.field)}
-                autoFocus
+                autoFocus={item.autoFocus}
                 margin="dense"
                 id={item.field}
                 label={item.headerName}
                 fullWidth
                 variant="standard"
+                type={item.type || "text"}
+                error={!!errors[item.field]}
+                helperText={errors[item.field]?.message?.toString()}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
-            )
-          }) || dialogParams?.element ||''}
-        </DialogContent>
+            ))}
+          </DialogContent>
 
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setDialogParams(null)
-            }}
-          >
-            关闭
-          </Button>
-          <LoadingButton
-            loading={modalLoading}
-            component="label"
-            variant="contained"
-          >
-            确定
-            <VisuallyHiddenInput type="submit" />
-          </LoadingButton>
-        </DialogActions>
-      </form>
+          <DialogActions>
+            <Button
+              onClick={closeDialog}
+              disabled={modalLoading}
+            >
+              取消
+            </Button>
+            <LoadingButton
+              loading={modalLoading}
+              component="label"
+              variant="contained"
+              color="primary"
+            >
+              确定
+              <VisuallyHiddenInput type="submit" />
+            </LoadingButton>
+          </DialogActions>
+        </form>
+      ) : (
+        <>
+          <DialogContent dividers>
+            {dialogParams?.element || ''}
+          </DialogContent>
+          
+          <DialogActions>
+            <Button
+              onClick={closeDialog}
+              disabled={modalLoading}
+            >
+              取消
+            </Button>
+            <LoadingButton
+              loading={modalLoading}
+              onClick={handleConfirm}
+              variant="contained"
+              color="primary"
+            >
+              确定
+            </LoadingButton>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   )
 })
