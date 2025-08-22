@@ -73,6 +73,15 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   backgroundColor: theme.palette.mode === "light" 
     ? "#f5f5f9" 
     : theme.palette.background.default,
+  padding: theme.spacing(3),
+  paddingTop: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(1),
+  },
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
 }));
 
 // App bar
