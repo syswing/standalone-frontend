@@ -36,7 +36,7 @@ const Articles = () => {
   const tags = useSelector((state: any) => state.tagsReducer.tags)
 
   const [showCommentsMap, setShowCommentsMap] = useState<{ [key: string]: boolean }>({})
-  
+
   const toggleComments = (id: string) => {
     setShowCommentsMap((prev) => ({
       ...prev,
@@ -64,14 +64,7 @@ const Articles = () => {
       {outlet ? (
         <Outlet />
       ) : (
-        <div
-          ref={divRef}
-          style={{
-            height: (size.height ?? 0) - 40,
-            overflowY: 'auto',
-            marginRight: divRef.current?.scrollHeight > divRef.current?.clientHeight ? '-15px' : 0,
-          }}
-        >
+        <div>
           {Array.from(blogList).map((blog: any, index) => (
             <Card
               key={index}
@@ -80,80 +73,28 @@ const Articles = () => {
               }}
               className="mb-2 mr-4"
             >
-              {size.width > 600 ? (
-                <Grid container>
-                  <Grid
-                    item
-                    xs={4}
-                  >
-                    <CardMedia
-                      sx={{ height: 130, objectFit: 'cover' }}
-                      component="img"
-                      image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
-                      alt="green iguana"
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={8}
-                    className="glass"
-                  >
-                    <CardActionArea
-                      onClick={() => {
-                        dispatch(setBlogMd(blog))
-                        navigate(`/articles/${blog.name}`)
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                        >
-                          {blog.name}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                      {blog.tag && (
-                        <ArticleTags
-                          tags={tags}
-                          artTags={blog.tag}
-                        />
-                      )}
-                      {/* <UpArticle
-                        up={blog.up}
-                        id={blog.id}
-                      /> */}
-                      <VisitArticle visit={blog.visit} />
-                      <CommentArticle
-                        id={blog.id}
-                        comment={blog.commentCount}
-                        showComments={() => toggleComments(blog.id)}
-                      />
-                      <Typography
-                        className="mr-2"
-                        style={{ marginLeft: 'auto' }}
-                      >
-                        {dayjs(blog.create_at).format('YYYY-MM-DD')}
-                      </Typography>
-                    </CardActions>
-                  </Grid>
+              <Grid container>
+                <Grid
+                  item
+                  xs={4}
+                >
+                  <CardMedia
+                    sx={{ height: 130, objectFit: 'cover' }}
+                    component="img"
+                    image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
+                    alt="green iguana"
+                  />
                 </Grid>
-              ) : (
-                <div className="glass">
+                <Grid
+                  item
+                  xs={8}
+                >
                   <CardActionArea
                     onClick={() => {
                       dispatch(setBlogMd(blog))
                       navigate(`/articles/${blog.name}`)
                     }}
                   >
-                    <CardMedia
-                      sx={{ height: 130, objectFit: 'cover' }}
-                      component="img"
-                      image={blog.main_pic_id ? `/api/picture/getPicById?id=${blog.main_pic_id}` : test1}
-                      alt="green iguana"
-                    />
                     <CardContent>
                       <Typography
                         gutterBottom
@@ -172,9 +113,9 @@ const Articles = () => {
                       />
                     )}
                     {/* <UpArticle
-                      up={blog.up}
-                      id={blog.id}
-                    /> */}
+                        up={blog.up}
+                        id={blog.id}
+                      /> */}
                     <VisitArticle visit={blog.visit} />
                     <CommentArticle
                       id={blog.id}
@@ -188,9 +129,8 @@ const Articles = () => {
                       {dayjs(blog.create_at).format('YYYY-MM-DD')}
                     </Typography>
                   </CardActions>
-                </div>
-              )}
-              {showCommentsMap[blog.id] && <CommentList blog={blog} />}
+                </Grid>
+              </Grid>
             </Card>
           ))}
         </div>

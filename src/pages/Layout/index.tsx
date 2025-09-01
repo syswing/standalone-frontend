@@ -13,7 +13,7 @@ import Container from '@mui/material/Container'
 import MatchedLink from './MatchedLink'
 import useWindowSize from 'hooks/useWindowSize'
 import MarkdownToc from 'pages/Dashboard/Articles/MarkdownToc'
-import MobileNavBar from '../../components/MobileNavBar';
+import MobileNavBar from '../../components/MobileNavBar'
 
 const BackgroundBar = ({ showTopBar }) => {
   const dispatch = useDispatch()
@@ -44,8 +44,8 @@ const BackgroundBar = ({ showTopBar }) => {
 }
 
 const Layout = () => {
-  const [showTopBar, setShowTopBar] = useState(false);
-  const size = useWindowSize();
+  const [showTopBar, setShowTopBar] = useState(false)
+  const size = useWindowSize()
 
   return (
     <Box
@@ -54,41 +54,76 @@ const Layout = () => {
         width: '100%',
         height: '100vh',
         backgroundColor: '#ebebeb',
+        display: 'flex',
       }}
     >
       {/* {size.width <= 600 && <MobileNavBar />} */}
-      <Container
-        maxWidth={'xl'}
-        className="absolute z-10"
+      
+      {/* 左侧白色背景区域 */}
+      <Box
         style={{
-          transform: 'translateX(-50%)',
-          left: '50%',
+          width: '25%',
+          height: '100vh',
+          backgroundColor: '#ffffff',
+          // boxShadow: 'inset -10px 0 20px rgba(0, 0, 0, 0.1)',
+        }}
+      />
+      
+      {/* 中间内容区域 */}
+      <Box
+        style={{
+          width: '50%',
+          height: '100vh',
+          backgroundColor: '#ebebeb',
+          position: 'relative',
+          boxShadow: 'inset 15px 0 20px -10px rgba(0, 0, 0, 0.15), inset -15px 0 20px -10px rgba(0, 0, 0, 0.15)',
+          borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
+          borderRight: '1px solid rgba(0, 0, 0, 0.1)',
+          overflow: 'auto',
         }}
       >
-        <Grid
-          className="pt-5"
-          container
-          spacing={1}
+        <Container
+          maxWidth={'xl'}
+          style={{
+            width: '100%',
+            minHeight: '100%',
+          }}
         >
           <Grid
-            item
-            xs={12}
+            className="pt-5"
+            container
+            spacing={1}
           >
-            <Card
-              style={{
-                backgroundColor: 'transparent',
-                overflow: 'hidden',
-                boxShadow: 'none',
-              }}
+            <Grid
+              item
+              xs={12}
             >
-              <Outlet />
-            </Card>
+              <Card
+                style={{
+                  backgroundColor: 'transparent',
+                  boxShadow: 'none'
+                }}
+              >
+                <Outlet />
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-      <BackgroundBar showTopBar={showTopBar} />
+        </Container>
+      </Box>
+      
+      {/* 右侧白色背景区域 */}
+      <Box
+        style={{
+          width: '25%',
+          height: '100vh',
+          backgroundColor: '#ffffff',
+          // boxShadow: 'inset 10px 0 20px rgba(0, 0, 0, 0.1)',
+        }}
+      />
+      
+      {/* <BackgroundBar showTopBar={showTopBar} /> */}
     </Box>
-  );
-};
+  )
+}
 
 export default Layout

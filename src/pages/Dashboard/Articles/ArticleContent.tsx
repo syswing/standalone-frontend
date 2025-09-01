@@ -66,7 +66,7 @@ export default () => {
         <Paper
           ref={divRef}
           elevation={4}
-          className="glass"
+          // className="glass"
           style={{
             height: (size?.height || 0) - 40,
             overflowY: 'auto',
