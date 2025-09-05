@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import TopBar from './TopBar'
 import { Box } from '@mui/system'
@@ -48,10 +49,7 @@ const Layout = () => {
   const [showTopBar, setShowTopBar] = useState(false)
   const size = useWindowSize()
   const dispatch = useDispatch()
-
   const routes = useSelector((state: any) => state.routesReducer?.routes || [])
-
-  console.log('routes', routes)
 
   useEffect(() => {
     fetchRoutes(dispatch)

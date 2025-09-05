@@ -1,12 +1,10 @@
-import React from 'react'
-import { Box, Button, FormControlLabel, ListItemText, Stack, Switch } from '@mui/material'
 import ListItemButton from '@mui/material/ListItemButton'
 import * as colors from '@mui/material/colors'
-import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
+import { Box, Button, FormControlLabel, ListItemText, Stack, Switch, Typography, List } from '@mui/material'
 import shadows from '@mui/material/styles/shadows'
-import { frontPic, nextPic } from '../../../store/bingPic'
-import { useDispatch } from 'react-redux'
+import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
+import React from 'react'
 
 const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementType; color: string; matched?: number }>(
   ({ color, matched }) => {
@@ -18,11 +16,17 @@ const StyledListItemButton = styled(ListItemButton)<{ component?: React.ElementT
         }
       : {}
     const styles = {
-      transition: 'all ease .5s',
+      transition: 'all ease .3s',
+      borderRadius: '8px',
+      marginBottom: '4px',
+      width: '100%',
+      minHeight: '48px',
+      padding: '12px 16px',
       ...matchedStyle,
       '&:hover': {
         color: '#fff',
         backgroundColor: colors[`${color}`][400],
+        transform: 'translateX(4px)',
       },
       '& > a': {
         textDecoration: 'none',
@@ -46,17 +50,30 @@ const MatchedLink = ({ to, primary }) => {
       style={{
         textDecoration: 'none',
         color: 'currentColor',
+        display: 'block',
+        width: '100%',
       }}
       to={to}
     >
-      <StyledListItemButton matched={match ? 1 : 0} color={'blue'}>
+      <StyledListItemButton 
+        matched={match ? 1 : 0} 
+        color={'blue'}
+        sx={{
+          width: '100%',
+          minHeight: '48px',
+          borderRadius: '8px',
+          marginBottom: '4px',
+          padding: '12px 16px',
+        }}
+      >
         <ListItemText
           sx={{ my: 0 }}
           primary={primary}
           primaryTypographyProps={{
-            fontSize: 14,
-            fontWeight: 'medium',
-            letterSpacing: 0,
+            fontSize: 16,
+            fontWeight: match ? 'bold' : 'medium',
+            letterSpacing: 0.5,
+            lineHeight: 1.2,
           }}
         />
       </StyledListItemButton>
@@ -64,45 +81,22 @@ const MatchedLink = ({ to, primary }) => {
   )
 }
 
-const NavBar = ({ showTopBar, handleChangeShowTopBar }) => {
-  const dispatch = useDispatch()
+const NavBar = ({ routes = [] } : any) => {
+  // 过滤掉已删除和非激活的路由
+  const activeRoutes = routes.filter(route => !route.isDeleted && route.isActive)
+
   return (
-    <ThemeProvider
-      theme={createTheme({
-        components: {
-          MuiListItemButton: {
-            defaultProps: {
-              disableTouchRipple: true,
-            },
-          },
-          MuiFormControlLabel: {
-            styleOverrides: {
-              label: {
-                fontSize: '14px',
-                fontWeight: 'medium',
-                letterSpacing: 0,
-              },
-            },
-          },
-        },
-      })}
-    >
-      {/* <Stack direction="row" spacing={2} style={{
-			marginLeft:'auto',
-			marginRight:30
-		}}> */}
-      {/* <FormControlLabel control={<Switch 	
-				checked={showTopBar}
-				onChange={handleChangeShowTopBar}
-			/>} label="动效开关" /> */}
-      {/* <Button variant="contained" onClick={() => {
-				dispatch(frontPic({}))
-			}}>上一张图</Button>
-			<Button variant="contained" onClick={() => {
-				dispatch(nextPic({}))
-			}}>下一张图</Button> */}
-      {/* </Stack> */}
-    </ThemeProvider>
+    <Box>
+      <List>
+        {activeRoutes.map((route) => (
+          <MatchedLink 
+            key={route.id} 
+            to={route.path} 
+            primary={route.title || route.name} 
+          />
+        ))}
+      </List>
+    </Box>
   )
 }
 
