@@ -83,6 +83,7 @@ export default (props) => {
                   columns: props.columns.filter(item => item.edit),
                   path: props.actions.editPath,
                   params: { id: params.row.id },
+                  initialValues: params.row,
                 });
               }}
             />

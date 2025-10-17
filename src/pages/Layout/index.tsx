@@ -50,6 +50,7 @@ const Layout = () => {
   const dispatch = useDispatch()
 
   const routes = useSelector((state: any) => state.routesReducer?.routes || [])
+  const currentBlog = useSelector((state: any) => state.currentBlogReducer.currentBlog)
 
   console.log('routes', routes)
 
@@ -68,25 +69,27 @@ const Layout = () => {
       }}
     >
       {/* {size.width <= 600 && <MobileNavBar />} */}
-      
+
       {/* 左侧白色背景区域 - 路由导航 */}
-      <Box
-        style={{
-          width: '25%',
-          height: '100vh',
-          backgroundColor: '#ffffff',
-          padding: '20px',
-          overflowY: 'auto',
-          borderRight: '1px solid rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <NavBar routes={routes} />
-      </Box>
-      
+      {size.width > 600 && (
+        <Box
+          style={{
+            width: '25%',
+            height: '100vh',
+            backgroundColor: '#ffffff',
+            padding: '20px',
+            overflowY: 'auto',
+            borderRight: '1px solid rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <NavBar routes={routes} />
+        </Box>
+      )}
+
       {/* 中间内容区域 */}
       <Box
         style={{
-          width: '50%',
+          width: size.width > 600 ? '50%' : '100%',
           height: '100vh',
           backgroundColor: '#ebebeb',
           position: 'relative',
@@ -115,7 +118,7 @@ const Layout = () => {
               <Card
                 style={{
                   backgroundColor: 'transparent',
-                  boxShadow: 'none'
+                  boxShadow: 'none',
                 }}
               >
                 <Outlet />
@@ -124,17 +127,39 @@ const Layout = () => {
           </Grid>
         </Container>
       </Box>
-      
+
       {/* 右侧白色背景区域 */}
-      <Box
-        style={{
-          width: '25%',
-          height: '100vh',
-          backgroundColor: '#ffffff',
-          // boxShadow: 'inset 10px 0 20px rgba(0, 0, 0, 0.1)',
-        }}
-      />
-      
+      {size.width > 600 && (
+        <Box
+          style={{
+            width: '25%',
+            height: '100vh',
+            backgroundColor: '#ffffff',
+            padding: '20px',
+            overflowY: 'auto',
+            borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
+            display: 'flex',
+            flexDirection: 'column',
+            // boxShadow: 'inset 10px 0 20px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          {/* markdownToc */}
+          {size.width > 600 && currentBlog.tocContent && (
+            <Grid
+              item
+              xs="auto"
+              style={
+                {
+                  // width: '13em',
+                }
+              }
+            >
+              <MarkdownToc />
+            </Grid>
+          )}
+        </Box>
+      )}
+
       {/* <BackgroundBar showTopBar={showTopBar} /> */}
     </Box>
   )

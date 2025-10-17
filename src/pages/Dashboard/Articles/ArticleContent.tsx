@@ -1,10 +1,12 @@
 import { Grid, Paper } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import 'github-markdown-css/github-markdown.css'
 import MarkdownToc from './MarkdownToc'
 import useWindowSize from 'hooks/useWindowSize'
 import action from 'request/action'
+import { setBlogMd } from '../../../store/currentBlog';
+
 import DeepseekChat from 'components/DeepseekChat'
 
 export default () => {
@@ -12,6 +14,7 @@ export default () => {
   const divRef = React.useRef<any>(null)
   const size = useWindowSize()
   const [isScrollbarVisible, setIsScrollbarVisible] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const visitMd = async () => {
@@ -23,6 +26,9 @@ export default () => {
       })
     }
     visitMd()
+    return () => {
+      dispatch(setBlogMd({ currentBlog: ''  }))
+    }
   }, [])
 
   useEffect(() => {
@@ -92,18 +98,7 @@ export default () => {
           ></div>}
         </Paper>
       </Grid>
-      {/* markdownToc */}
-      {size.width > 600 && currentBlog.tocContent && (
-        <Grid
-          item
-          xs="auto"
-          style={{
-            width: '13em',
-          }}
-        >
-          <MarkdownToc />
-        </Grid>
-      )}
+      
     </Grid>
   )
 }

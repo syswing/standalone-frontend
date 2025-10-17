@@ -26,10 +26,10 @@ const FormDialog = React.forwardRef((props: any, ref) => {
 
   const openDialog = (params) => {
     setDialogParams(params)
-    
+
     // If we have initial values in params, set them in the form
     if (params?.initialValues) {
-      Object.keys(params.initialValues).forEach(key => {
+      Object.keys(params.initialValues).forEach((key) => {
         setValue(key, params.initialValues[key])
       })
     } else {
@@ -46,7 +46,7 @@ const FormDialog = React.forwardRef((props: any, ref) => {
   // Handle simple confirmation dialogs without forms
   const handleConfirm = async () => {
     if (!dialogParams?.path) return
-    
+
     setModalLoading(true)
     try {
       await action({
@@ -64,15 +64,24 @@ const FormDialog = React.forwardRef((props: any, ref) => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     if (!dialogParams?.path) return
-    
+
     setModalLoading(true)
     try {
+      // Process params to convert string booleans to actual booleans
+      const processedParams = { ...(dialogParams?.params || {}),...data }
+
+      // Convert string 'true'/'false' to boolean for specific fields
+      Object.keys(processedParams).forEach((key) => {
+        if (processedParams[key] === 'true') {
+          processedParams[key] = true
+        } else if (processedParams[key] === 'false') {
+          processedParams[key] = false
+        }
+      })
+
       await action({
         path: dialogParams.path,
-        params: {
-          ...data,
-          ...(dialogParams?.params || {}),
-        },
+        params: processedParams,
       })
       closeDialog()
       props?.refresh?.()
@@ -95,7 +104,7 @@ const FormDialog = React.forwardRef((props: any, ref) => {
       fullWidth
     >
       <DialogTitle>{dialogParams?.title || '--'}</DialogTitle>
-      
+
       {isFormDialog ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent dividers>
@@ -109,7 +118,7 @@ const FormDialog = React.forwardRef((props: any, ref) => {
                 label={item.headerName}
                 fullWidth
                 variant="standard"
-                type={item.type || "text"}
+                type={item.type || 'text'}
                 error={!!errors[item.field]}
                 helperText={errors[item.field]?.message?.toString()}
                 InputLabelProps={{
@@ -139,10 +148,8 @@ const FormDialog = React.forwardRef((props: any, ref) => {
         </form>
       ) : (
         <>
-          <DialogContent dividers>
-            {dialogParams?.element || ''}
-          </DialogContent>
-          
+          <DialogContent dividers>{dialogParams?.element || ''}</DialogContent>
+
           <DialogActions>
             <Button
               onClick={closeDialog}

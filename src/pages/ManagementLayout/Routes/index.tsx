@@ -13,7 +13,7 @@ const Routes = () => {
     { field: 'description', headerName: '路由描述', width: 100,add:true,edit: true  },
     { field: 'icon', headerName: '路由图标', width: 100,add:true,edit: true  },
     { field: 'parentId', headerName: '父级路由ID', width: 100,add:true },
-    { field: 'isActive', headerName: '是否激活', width: 100,add:true },
+    { field: 'isActive', headerName: '是否激活', width: 100,add:true,edit:true },
     { field: 'isDeleted', headerName: '是否删除', width: 100,add:true },
     { field: 'createdAt', headerName: '创建时间', width: 100 },
     { field: 'updatedAt', headerName: '更新时间', width: 100 },
