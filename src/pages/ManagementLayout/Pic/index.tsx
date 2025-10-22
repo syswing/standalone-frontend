@@ -24,7 +24,7 @@ export default () => {
       path: '/picture/getPicPage',
       params: {
         page: 1,
-        size: 10,
+        size: 9999,
       },
     })
     return result
