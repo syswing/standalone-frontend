@@ -26,6 +26,7 @@ import Ocr from '../pages/ManagementLayout/Ocr'
 import Comments from 'pages/ManagementLayout/Comments'
 import DeepseekChat from 'components/DeepseekChat'
 import Login from 'pages/Login'
+import DstServer from 'pages/dstServer/dstServer'
   
 export const managementMenu = [
   {
@@ -73,6 +74,15 @@ const routes = [
       {
         index: true, // 添加 index 路由
         element: <Navigate to="/articles" replace />, // 重定向到 /articles
+      },
+      {
+        path:'dst',
+        children:[
+          {
+            path:'server',
+            element: <DstServer />,
+          }
+        ]
       },
       {
         path: 'blog',

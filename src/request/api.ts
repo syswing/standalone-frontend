@@ -209,5 +209,12 @@ export default {
       method: 'POST',
       data: {},
     },
+  },
+  dst:{
+    getAllCacheRegionLobbies:{
+      url: '/dst/getAllCacheRegionLobbies',
+      method: 'GET',
+      data: {},
+    },
   }
 }
