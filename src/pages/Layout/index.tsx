@@ -60,7 +60,7 @@ const Layout = () => {
   const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
 
   console.log('routes', routes)
-
+ 
   useEffect(() => {
     fetchRoutes(dispatch)
   }, [dispatch])

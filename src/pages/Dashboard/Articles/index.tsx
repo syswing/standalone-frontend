@@ -10,7 +10,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import th2 from '../../../images/th2.jpeg'
+import th2 from '../../../images/th2.jpeg' 
 import test1 from '../../../images/test1.jpg'
 import action from '../../../request/action'
 import { useDispatch, useSelector } from 'react-redux'
