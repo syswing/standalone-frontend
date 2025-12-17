@@ -25,7 +25,7 @@ const BlogMd = () => {
 			fetchBlogMd(path)
 		}
 	},[path])
-	return <Paper  elevation={4}><div style={{
+	return <Paper elevation={4}><div style={{
 		padding:20,
 		marginBottom:20
 	}} dangerouslySetInnerHTML={{__html:currentBlog.dom}}></div></Paper>

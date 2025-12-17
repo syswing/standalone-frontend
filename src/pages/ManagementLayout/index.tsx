@@ -49,6 +49,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
+import defaultAvatar from '../../images/WechatIMG115.jpeg'; // Adjust path as needed
+
 const drawerWidth = 260;
 
 // Main content area
@@ -213,7 +215,7 @@ export default () => {
   const [anchorElNotifications, setAnchorElNotifications] = React.useState<null | HTMLElement>(null);
   
   // Get user info from localStorage
-  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{"name": "Admin", "avatar": ""}');
+  const userInfo = JSON.parse(localStorage.getItem('userInfo') || `{"name": "Admin", "avatar": "${defaultAvatar}"}`);
 
   // Set header name based on current path
   useEffect(() => {
@@ -339,7 +341,7 @@ export default () => {
               onClose={handleCloseNotificationsMenu}
             >
               <MenuItem onClick={handleCloseNotificationsMenu}>
-                <Typography variant="body2">新评论: "这篇文章很有帮助..."</Typography>
+                <Typography variant="body2">新</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNotificationsMenu}>
                 <Typography variant="body2">系统通知: 备份已完成</Typography>
@@ -427,9 +429,9 @@ export default () => {
         >
           <DrawerHeader>
             <Box sx={{ display: 'flex', alignItems: 'center', pl: 1 }}>
-              <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>A</Avatar>
+              <Avatar src={defaultAvatar} sx={{ bgcolor: 'primary.main', mr: 1 }}>A</Avatar>
               <Typography variant="h6" noWrap component="div">
-                {userInfo.name}
+                syswing
               </Typography>
             </Box>
             <IconButton onClick={handleDrawerClose}>

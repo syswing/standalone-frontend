@@ -144,6 +144,11 @@ export default {
       url: '/picture/update',
       method: 'POST',
       data: {},
+    },
+    deletePic:{
+      url: '/picture/deletePic',
+      method: 'GET',
+      data: {},
     }
   },
   routes:{

@@ -58,8 +58,6 @@ const Layout = () => {
   const bingPic = useSelector((state: any) => state.bingPicSliceReducer.bingPic)
   const bingUrl = useSelector((state: any) => state.bingPicSliceReducer.bingUrl)
   const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
-
-  console.log('routes', routes)
  
   useEffect(() => {
     fetchRoutes(dispatch)
@@ -186,10 +184,10 @@ const Layout = () => {
         )}
       </Box>
 
-      {/* 右侧区域 */}
+      {/* 右侧区域 */} 
       {size.width > 600 && (
         <Box
-          style={{
+          style={{ 
             width: widths.right,
             height: '100vh',
             backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',

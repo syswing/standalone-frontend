@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import ProMaterialTable from 'components/ProMaterialTable'
 
 export default () => {
   const size = useWindowSize()
@@ -32,7 +33,11 @@ export default () => {
 
   const { data: adventureList } = useRequest(async () => {
     const result = await action({
-      path: '/adventure/list',
+      path: '/adventure/adminList',
+      params: {
+        page: 1,
+        size: 9999,
+      },
     })
     return result
   })
@@ -45,8 +50,8 @@ export default () => {
   }
 
   const handleClose = () => {
-    setOpen(false)
     setSelectedPic(null)
+    setOpen(false)
   }
 
   const handleChange = (e) => {
@@ -60,18 +65,47 @@ export default () => {
       params: {
         id: selectedPic.id,
         description: selectedPic.description,
-        adventure_id:selectedPic.adventure_id
+        adventure_id: selectedPic.adventure_id,
       },
     })
     handleClose()
-    
   }
 
   console.log('data', data)
 
   return (
-    <Box sx={{ height: size.height, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, overflowY: 'scroll' }}>
-      <ImageList
+    <Box sx={{ height: size.height, overflowY: 'scroll' }}>
+      <ProMaterialTable
+        columns={[
+          { field: 'name', headerName: '图片名称', width: 120 },
+          { field: 'description', headerName: '描述', width: 120 },
+          { field: 'adventure_id', headerName: '冒险ID', width: 120 },
+          { field: 'path', headerName: '文件路径', width: 250 },
+        ]}
+        path="/picture/getPicPage"
+        pagination={{
+          paginationPage: 'page',
+          paginationPagePageSize: 'size',
+        }}
+        actions={{
+          delPath: '/picture/deletePic',
+        }}
+        extraActions={(params) => {
+          return [ 
+            <Button
+              key="extra_edit"
+              variant="text"
+              onClick={() => {
+                handleOpen(params)
+              }}
+            >
+              编辑
+            </Button>
+          ]
+        }}
+      />
+
+      {/* <ImageList
         variant="masonry"
         cols={3}
         gap={20}
@@ -88,7 +122,7 @@ export default () => {
             />
           </ImageListItem>
         ))}
-      </ImageList>
+      </ImageList> */}
 
       {/* Dialog for editing picture */}
       <Dialog

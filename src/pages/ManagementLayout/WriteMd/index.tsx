@@ -7,6 +7,9 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import EditorHead from './EditorHead'
 import { useLocation, useNavigate } from 'react-router-dom' // 引入 useLocation
+
+import { useTheme } from '@mui/material'
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return (
     <MuiAlert
@@ -41,11 +44,15 @@ export default () => {
     }
   }, [id, name, content])
 
+  const parentTheme = useTheme()
+
+  const isDarkMode = parentTheme.palette.mode === 'dark'
+
   return (
     <Grid
       container
       style={{
-        height: 'calc(100vh - 64px)',
+        height: 'calc(100vh - 64px)', 
         overflow: 'auto',
       }}
     >
@@ -62,6 +69,7 @@ export default () => {
         <EditorBar
           textRef={textRef}
           setMdContent={setMdContent}
+          tag={tag}
           onConfirm={async (articleTags) => {
             const res = (await action({
               path: id ? '/adventure/update' : '/adventure/add',
@@ -87,8 +95,8 @@ export default () => {
             padding: '40px 40px 80px',
             marginBottom: 0,
             resize: 'none',
-            color: '#333',
-            backgroundColor: 'transparent',
+            color: isDarkMode ? '#e0e0e0' : '#333',
+            backgroundColor: isDarkMode ? '#1e1e1e' : 'transparent',
             fontSize: '18px',
             fontWeight: 400,
             lineHeight: '30px',

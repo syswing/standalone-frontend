@@ -1,49 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import * as MarkdownIt from 'markdown-it'
-// import 'github-markdown-css/github-markdown.css'
-import 'github-markdown-css/github-markdown-light.css';
-// import 'github-markdown-css/github-markdown-dark.css';
+import { useTheme } from '@mui/material'
+
 const markdownIt = new MarkdownIt()
 
 export default ({ mdContent }) => {
-//   const [isDarkTheme, setIsDarkTheme] = useState(false)
+  const parentTheme = useTheme()
+  const isDarkMode = parentTheme.palette.mode === 'dark'
 
-//   const darkTheme = require('github-markdown-css/github-markdown-dark.css')
-//   const lightTheme = require('github-markdown-css/github-markdown-light.css')
+  // 动态加载对应的 CSS
+  useEffect(() => {
+    // 移除之前的样式
+    const existingStyle = document.getElementById('markdown-theme-style')
+    if (existingStyle) {
+      existingStyle.remove()
+    }
 
-//   console.log('link.href', darkTheme, lightTheme)
+    // 创建新的 style 标签
+    const link = document.createElement('link')
+    link.id = 'markdown-theme-style'
+    link.rel = 'stylesheet'
+    link.href = isDarkMode 
+      ? require('github-markdown-css/github-markdown-dark.css')
+      : require('github-markdown-css/github-markdown-light.css')
+    
+    document.head.appendChild(link)
 
-//   useEffect(() => {
-//     const link = document.createElement('link')
-//     link.rel = 'stylesheet'
-//     link.id = 'theme-stylesheet'
-//     link.href = isDarkTheme ? darkTheme : lightTheme
-//     document.head.appendChild(link)
-
-//     return () => {
-//       const existingLink = document.getElementById('theme-stylesheet')
-//       if (existingLink) {
-//         existingLink.remove()
-//       }
-//     }
-//   }, [isDarkTheme])
+    // 清理函数
+    return () => {
+      const styleToRemove = document.getElementById('markdown-theme-style')
+      if (styleToRemove) {
+        styleToRemove.remove()
+      }
+    }
+  }, [isDarkMode])
 
   const html = markdownIt.render(mdContent)
 
   return (
-    <>
-      {/* <button
-        onClick={() => setIsDarkTheme(!isDarkTheme)}
-        className="px-4 py-2 border rounded"
-      >
-        切换主题
-      </button> */}
-      <div
-        className={`markdown-body`}
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
-      ></div>
-    </>
+    <div
+      className="markdown-body"
+      style={{
+        backgroundColor: 'transparent',
+        color: isDarkMode ? '#c9d1d9' : '#24292f',
+        padding: '16px',
+        borderRadius: '8px',
+      }}
+      dangerouslySetInnerHTML={{
+        __html: html,
+      }}
+    />
   )
 }

@@ -1,6 +1,6 @@
 /* 默认主题（浅色） */
 .markdown-body {
-  background-color: #ffffff;
+  background-color: transparent !important;
   color: #24292e;
 }
 
@@ -19,7 +19,7 @@
 /* 浅色主题 */
 @media (prefers-color-scheme: light) {
   .markdown-body {
-    background-color: #ffffff;
+    background-color: transparent !important;
     color: #24292e;
   }
 

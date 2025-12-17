@@ -28,8 +28,13 @@ const MdList = () => {
     { field: 'isPublish', headerName: '是否发布', width: 100 },
     { field: 'visit', headerName: '访问次数', width: 100 },
     { field: 'main_pic_id', headerName: '图片id', width: 100 },
-    { field: 'create_at', headerName: '创建时间', width: 100 },
-    { field: 'update_at', headerName: '更新时间', width: 100 },
+    { field: 'tag', headerName: '标签', width: 150 },
+    { field: 'create_at', headerName: '创建时间', width: 200 ,valueGetter: (value, row) => {
+      return new Date(value.row.create_at).toLocaleString()
+    }},
+    { field: 'update_at', headerName: '更新时间', width: 200, valueGetter: (value, row) => {
+      return new Date(value.row.update_at).toLocaleString()
+    }},
   ]
 
   return (

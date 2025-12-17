@@ -54,11 +54,6 @@ const Articles = () => {
     fetchArticleList()
   }, [])
 
-  const size = useWindowSize()
-  const divRef = React.useRef<any>(null)
-
-  console.log('size: ', blogList)
-
   return (
     <>
       {outlet ? (
@@ -91,7 +86,6 @@ const Articles = () => {
                 >
                   <CardActionArea
                     onClick={() => {
-                      dispatch(setBlogMd(blog))
                       navigate(`/articles/${blog.name}`)
                     }}
                   >
@@ -105,6 +99,7 @@ const Articles = () => {
                       </Typography>
                     </CardContent>
                   </CardActionArea>
+
                   <CardActions>
                     {blog.tag && (
                       <ArticleTags
@@ -112,10 +107,6 @@ const Articles = () => {
                         artTags={blog.tag}
                       />
                     )}
-                    {/* <UpArticle
-                        up={blog.up}
-                        id={blog.id}
-                      /> */}
                     <VisitArticle visit={blog.visit} />
                     <CommentArticle
                       id={blog.id}
