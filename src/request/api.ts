@@ -221,5 +221,19 @@ export default {
       method: 'GET',
       data: {},
     },
+  },
+  MD:{
+    mdList:{
+      url:'/MD/mdList',
+      method:'GET',
+      data:{}
+    },
+    getMdFile:{
+      url:'/MD/getMdFile',
+      method:'GET',
+      data:{
+        // fileName:''
+      }
+    }
   }
 }

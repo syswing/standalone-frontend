@@ -49,7 +49,14 @@ const Articles = () => {
       const result = await action({
         path: '/adventure/list',
       })
-      dispatch(setBlogList(result.data))
+      const result2 = await action({
+        path: '/MD/mdList',
+      })
+
+      dispatch(setBlogList([
+        ...result.data,
+        ...result2.data
+      ])) 
     }
     fetchArticleList()
   }, [])
@@ -107,18 +114,6 @@ const Articles = () => {
                         artTags={blog.tag}
                       />
                     )}
-                    <VisitArticle visit={blog.visit} />
-                    <CommentArticle
-                      id={blog.id}
-                      comment={blog.commentCount}
-                      showComments={() => toggleComments(blog.id)}
-                    />
-                    <Typography
-                      className="mr-2"
-                      style={{ marginLeft: 'auto' }}
-                    >
-                      {dayjs(blog.create_at).format('YYYY-MM-DD')}
-                    </Typography>
                   </CardActions>
                 </Grid>
               </Grid>

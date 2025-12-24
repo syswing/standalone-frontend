@@ -63,6 +63,11 @@ export const managementMenu = [
     path: '/management/deepseek',
     title: 'deepseek',
     element: <DeepseekChat />,
+  },
+  {
+    path:"/management/components",
+    title: '组件管理',
+    element: <Components />,
   }
 ]
 
