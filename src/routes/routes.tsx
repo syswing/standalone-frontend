@@ -27,6 +27,7 @@ import Comments from 'pages/ManagementLayout/Comments'
 import DeepseekChat from 'components/DeepseekChat'
 import Login from 'pages/Login'
 import DstServer from 'pages/dstServer/dstServer'
+import Player from 'pages/ManagementLayout/Player'
   
 export const managementMenu = [
   {
@@ -68,6 +69,11 @@ export const managementMenu = [
     path:"/management/components",
     title: '组件管理',
     element: <Components />,
+  },
+  {
+    path: '/management/player',
+    title: '播放器',
+    element: <Player />,
   }
 ]
 
@@ -150,7 +156,7 @@ const routes = [
         title: '写日志',
         element: <WriteMd />,
       },
-    ].concat(managementMenu),
+    ].concat(managementMenu as any),
   },
   {
     path: '/resume',

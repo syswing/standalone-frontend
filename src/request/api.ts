@@ -64,35 +64,26 @@ export default {
       data: {}
     }
   },
-  QQMusic: {
-    setUserCookie: {
-      url: '/QQMusic/setUserCookie',
+  Music: {
+    flac:{
+      url: '/Music/flac',
       method: 'GET',
       data: {
-        cookies: '',
+        // filePath : '',
       },
     },
-    userDetail: {
-      url: '/QQMusic/userDetail',
+    mp3:{
+      url: '/Music/mp3',
       method: 'GET',
       data: {
-        qqNo: '1102977704',
+        // filePath : '',
       },
     },
-    songlist: {
-      url: '/QQMusic/songlist',
+    all:{
+      url: '/Music/all',
       method: 'GET',
-      data: {
-        id: '1812298100',
-      },
-    },
-    songurl: {
-      url: '/QQMusic/songurl',
-      method: 'GET',
-      data: {
-        songmid: '1812298100',
-      },
-    },
+      data: {},
+    }
   },
   tags: {
     list: {
