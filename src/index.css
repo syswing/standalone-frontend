@@ -78,3 +78,129 @@ body h1 {
 .markdown-toc a:hover {
   color: #007bff;
 }
+
+/* 全局滚动条样式 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.7) transparent;
+}
+
+/* Webkit浏览器滚动条样式 */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(155, 155, 155, 0.7) 0%, rgba(100, 100, 100, 0.7) 100%);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(100, 100, 100, 0.9) 0%, rgba(60, 60, 60, 0.9) 100%);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, rgba(60, 60, 60, 1) 0%, rgba(40, 40, 40, 1) 100%);
+}
+
+/* 滚动条角落 */
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 深色主题滚动条 */
+.dark-theme *::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(200, 200, 200, 0.5) 0%, rgba(150, 150, 150, 0.5) 100%);
+}
+
+.dark-theme *::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(220, 220, 220, 0.7) 0%, rgba(180, 180, 180, 0.7) 100%);
+}
+
+/* 特殊区域的滚动条样式 - 主题色 */
+.primary-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(25, 118, 210, 0.6) 0%, rgba(21, 101, 192, 0.6) 100%);
+}
+
+.primary-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(25, 118, 210, 0.8) 0%, rgba(21, 101, 192, 0.8) 100%);
+  box-shadow: 0 0 8px rgba(25, 118, 210, 0.4);
+}
+
+/* 渐变彩色滚动条 */
+.gradient-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.gradient-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 50%, #f5576c 100%);
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+}
+
+/* 细滚动条 */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* 隐藏滚动条但保持滚动功能 */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 代码块滚动条 */
+pre::-webkit-scrollbar,
+code::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+pre::-webkit-scrollbar-thumb,
+code::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.5);
+  border-radius: 3px;
+}
+
+pre::-webkit-scrollbar-thumb:hover,
+code::-webkit-scrollbar-thumb:hover {
+  background: rgba(80, 80, 80, 0.7);
+}
+
+/* 表格滚动条 */
+table::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+table::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.6);
+  border-radius: 3px;
+}
+
+/* 动画效果 */
+@keyframes scrollbar-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+*::-webkit-scrollbar-thumb {
+  animation: scrollbar-appear 0.3s ease;
+}

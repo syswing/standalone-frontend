@@ -83,6 +83,21 @@ export default {
       url: '/Music/all',
       method: 'GET',
       data: {},
+    },
+    delete:{
+      url: '/Music/delete',
+      method: 'DELETE',
+      data: {
+        // filePaths : [],
+      },
+    },
+    upload:{
+      url: '/Music/upload',
+      method: 'POST',
+      headers: {
+        'Content-Type':'multipart/form-data',
+      },
+      data: {},
     }
   },
   tags: {

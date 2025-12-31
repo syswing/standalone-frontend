@@ -13,6 +13,8 @@ import {
   Divider,
   Grid,
   styled,
+  CircularProgress,
+  Pagination,
 } from '@mui/material'
 import {
   PlayArrow,
@@ -27,12 +29,12 @@ import {
   RepeatOne,
 } from '@mui/icons-material'
 import action from 'request/action'
-import { useAudio } from '../../contexts/AudioContext'
+import { useAudio } from 'contexts/AudioContext'
+import { throttle, debounce } from 'lodash'
 
 interface Track {
   id: number
   title: string
-  album: string
   duration: number
   cover: string
   url: string
@@ -65,7 +67,9 @@ const PlaylistItem = styled(ListItemButton)(({ theme }) => ({
     },
   },
 }))
+
 const isDev = process.env.NODE_ENV === 'development'
+const ITEMS_PER_PAGE = 8 // 每页显示10首歌
 
 const MusicPlayer: React.FC = () => {
   const { audioRef, isMusicPlaying, setIsMusicPlaying } = useAudio()
@@ -79,8 +83,15 @@ const MusicPlayer: React.FC = () => {
   const [isShuffleOn, setIsShuffleOn] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isPlaylistLoading, setIsPlaylistLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1) // 当前页码
 
   const currentTrack = playlist[currentTrackIndex]
+
+  // 计算分页
+  const totalPages = Math.ceil(playlist.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const currentPagePlaylist = playlist.slice(startIndex, endIndex)
 
   // 格式化时间
   const formatTime = (time: number): string => {
@@ -92,6 +103,7 @@ const MusicPlayer: React.FC = () => {
 
   // 播放/暂停
   const togglePlay = async () => {
+    console.log('togglePlay', audioRef)
     if (!audioRef.current) return
 
     try {
@@ -145,13 +157,19 @@ const MusicPlayer: React.FC = () => {
   const toggleShuffle = () => {
     setIsShuffleOn((prev) => !prev)
   }
-
-  // 处理进度条变化
+  
+  // 处理进度条变化（实时更新UI）
   const handleProgressChange = (_: Event, value: number | number[]) => {
     const newTime = value as number
     setCurrentTime(newTime)
+  }
+
+  // 处理进度条变化完成（用户释放滑块时更新音频）
+  const handleProgressChangeCommitted = (_: Event | React.SyntheticEvent, value: number | number[]) => {
+    console.log('handleProgressChangeCommitted', value)
+    const newTime = value as number
     if (audioRef.current) {
-      audioRef.current.currentTime = newTime
+      // audioRef.current.currentTime = newTime
     }
   }
 
@@ -169,7 +187,7 @@ const MusicPlayer: React.FC = () => {
     }
   }
 
-  // 切换静音
+  //  
   const toggleMute = () => {
     setIsMuted((prev) => !prev)
     if (audioRef.current) {
@@ -183,12 +201,30 @@ const MusicPlayer: React.FC = () => {
     // 不在这里设置播放状态，让音频事件监听器处理
   }
 
+  // 处理分页变化
+  const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
+    setCurrentPage(page)
+  }
+
+  // 当选中的歌曲改变时，自动跳转到对应页面
+  useEffect(() => {
+    console.log('3')
+    const pageOfCurrentTrack = Math.floor(currentTrackIndex / ITEMS_PER_PAGE) + 1
+    if (pageOfCurrentTrack !== currentPage) {
+      setCurrentPage(pageOfCurrentTrack)
+    }
+  }, [currentTrackIndex])
+
   // 音频事件监听
   useEffect(() => {
+    console.log('2')
     const audio = audioRef.current
     if (!audio) return
 
-    const updateTime = () => setCurrentTime(audio.currentTime)
+    const updateTime = () => {
+      console.log('updateTime')
+      return setCurrentTime(audio.currentTime)
+    }
     const updateDuration = () => {
       if (audio.duration && !isNaN(audio.duration)) {
         setDuration(audio.duration)
@@ -250,6 +286,7 @@ const MusicPlayer: React.FC = () => {
 
   // 切换歌曲时自动播放
   useEffect(() => {
+    console.log('4')
     const audio = audioRef.current
     if (!audio || !currentTrack) return
 
@@ -276,6 +313,7 @@ const MusicPlayer: React.FC = () => {
 
   // 初始化音量和获取播放列表
   useEffect(() => {
+    console.log('5')
     if (audioRef.current) {
       audioRef.current.volume = volume / 100
     }
@@ -293,7 +331,6 @@ const MusicPlayer: React.FC = () => {
           const transformedPlaylist: Track[] = result.data.map((item: any, index: number) => ({
             id: index + 1,
             title: item.name?.replace(/\.(flac|mp3|wav|m4a)$/i, '') || '未知歌曲',
-            album: item.album || '未知专辑',
             duration: item.duration || 0,
             cover:
               (isDev ? 'http://localhost:7777/api' : 'https://syswing.icu/api') + item.coverUrl ||
@@ -349,22 +386,34 @@ const MusicPlayer: React.FC = () => {
 
   return (
     <PlayerContainer>
-      <Grid container spacing={3}>
+      <Grid
+        container
+        spacing={3}
+      >
         {/* 左侧封面和控制 */}
-        <Grid item xs={12} md={4}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+        >
           <Card sx={{ height: '100%', backgroundColor: 'transparent', boxShadow: 'none' }}>
             <CoverImage image={currentTrack?.cover} />
           </Card>
         </Grid>
 
         {/* 右侧播放控制 */}
-        <Grid item xs={12} md={8}>
+        <Grid
+          item
+          xs={12}
+          md={8}
+        >
           <Box sx={{ mb: 3 }}>
-            <Typography variant="h5" component="h2" gutterBottom>
+            <Typography
+              variant="h5"
+              component="h2"
+              gutterBottom
+            >
               {currentTrack?.title}
-            </Typography>
-            <Typography variant="subtitle1" color="inherit" sx={{ opacity: 0.8 }}>
-              {currentTrack?.album}
             </Typography>
           </Box>
 
@@ -375,6 +424,7 @@ const MusicPlayer: React.FC = () => {
               min={0}
               max={duration || 100}
               onChange={handleProgressChange}
+              onChangeCommitted={handleProgressChangeCommitted}
               sx={{
                 color: 'white',
                 '& .MuiSlider-thumb': {
@@ -393,10 +443,16 @@ const MusicPlayer: React.FC = () => {
 
           {/* 控制按钮 */}
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3, mb: 3 }}>
-            <IconButton onClick={toggleShuffle} sx={{ color: 'white' }}>
+            <IconButton
+              onClick={toggleShuffle}
+              sx={{ color: 'white' }}
+            >
               <Shuffle sx={{ fontSize: 20 }} />
             </IconButton>
-            <IconButton onClick={playPrevious} sx={{ color: 'white' }}>
+            <IconButton
+              onClick={playPrevious}
+              sx={{ color: 'white' }}
+            >
               <SkipPrevious sx={{ fontSize: 30 }} />
             </IconButton>
             <IconButton
@@ -411,17 +467,29 @@ const MusicPlayer: React.FC = () => {
               }}
             >
               {isLoading ? (
-                <Typography variant="body2">加载中...</Typography>
+                <CircularProgress
+                  sx={{
+                    backgroundColor: '#fff',
+                    borderRadius: '50%',
+                  }}
+                  size={24}
+                />
               ) : isMusicPlaying ? (
                 <Pause sx={{ fontSize: 30 }} />
               ) : (
                 <PlayArrow sx={{ fontSize: 30 }} />
               )}
             </IconButton>
-            <IconButton onClick={playNext} sx={{ color: 'white' }}>
+            <IconButton
+              onClick={playNext}
+              sx={{ color: 'white' }}
+            >
               <SkipNext sx={{ fontSize: 30 }} />
             </IconButton>
-            <IconButton onClick={toggleRepeatMode} sx={{ color: 'white' }}>
+            <IconButton
+              onClick={toggleRepeatMode}
+              sx={{ color: 'white' }}
+            >
               {repeatMode === 'off' ? (
                 <Repeat sx={{ fontSize: 20 }} />
               ) : repeatMode === 'all' ? (
@@ -434,7 +502,10 @@ const MusicPlayer: React.FC = () => {
 
           {/* 音量控制 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <IconButton onClick={toggleMute} sx={{ color: 'white' }}>
+            <IconButton
+              onClick={toggleMute}
+              sx={{ color: 'white' }}
+            >
               {isMuted || volume === 0 ? <VolumeMute sx={{ fontSize: 20 }} /> : <VolumeUp sx={{ fontSize: 20 }} />}
             </IconButton>
             <Slider
@@ -456,35 +527,64 @@ const MusicPlayer: React.FC = () => {
         </Grid>
 
         {/* 播放列表 */}
-        <Grid item xs={12}>
+        <Grid
+          item
+          xs={12}
+        >
           <Divider sx={{ my: 2, borderColor: 'rgba(255,255,255,0.2)' }} />
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2 }}
+          >
             播放列表
           </Typography>
           <List>
-            {playlist.map((track, index) => (
-              <React.Fragment key={track.id}>
-                <PlaylistItem
-                  selected={index === currentTrackIndex}
-                  onClick={() => selectTrack(index)}
-                  sx={{
-                    backgroundColor: index === currentTrackIndex ? 'rgba(255,255,255,0.1)' : 'transparent',
-                  }}
-                >
-                  <Box sx={{ flex: 1 }}>
-                    <Typography variant="body2">{track.title}</Typography>
-                    <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                      {track.album}
+            {currentPagePlaylist.map((track, index) => {
+              const actualIndex = startIndex + index
+              return (
+                <React.Fragment key={track.id}>
+                  <PlaylistItem
+                    selected={actualIndex === currentTrackIndex}
+                    onClick={() => selectTrack(actualIndex)}
+                    sx={{
+                      backgroundColor: actualIndex === currentTrackIndex ? 'rgba(255,255,255,0.1)' : 'transparent',
+                    }}
+                  >
+                    <Box sx={{ flex: 1 }}>
+                      <Typography variant="body2">{track.title}</Typography>
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{ opacity: 0.7 }}
+                    >
+                      {formatTime(track.duration)}
                     </Typography>
-                  </Box>
-                  <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                    {formatTime(track.duration)}
-                  </Typography>
-                </PlaylistItem>
-                {index < playlist.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
+                  </PlaylistItem>
+                  {index < currentPagePlaylist.length - 1 && <Divider />}
+                </React.Fragment>
+              )
+            })}
           </List>
+          {/* 分页组件 */}
+          {totalPages > 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+                sx={{
+                  '& .MuiPaginationItem-root': {
+                    color: 'white',
+                  },
+                  '& .MuiPaginationItem-page.Mui-selected': {
+                    backgroundColor: 'white',
+                    color: '#667eea',
+                  },
+                }}
+              />
+            </Box>
+          )}
         </Grid>
       </Grid>
     </PlayerContainer>

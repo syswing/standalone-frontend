@@ -174,18 +174,11 @@ export default () => {
         <Paper
           ref={divRef}
           elevation={4}
+          className="gradient-scrollbar"
           style={{
-            height: (size?.height || 0) - 40,
             overflowY: 'auto',
             marginRight: isScrollbarVisible ? '-15px' : 0,
-            scrollbarWidth: isScrollbarVisible ? 'auto' : 'none',
-            msOverflowStyle: isScrollbarVisible ? 'auto' : 'none',
             background: 'transparent',
-          }}
-          sx={{
-            '&::-webkit-scrollbar': {
-              display: isScrollbarVisible ? 'auto' : 'none',
-            },
           }}
         >
           {currentBlog.name === 'deepseek测试' ? (
@@ -195,7 +188,6 @@ export default () => {
               className="markdown-body"
               style={{
                 padding: 20,
-                marginBottom: 20,
                 minHeight: 150,
                 background: 'transparent',
               }}

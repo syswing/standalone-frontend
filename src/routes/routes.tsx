@@ -28,7 +28,9 @@ import DeepseekChat from 'components/DeepseekChat'
 import Login from 'pages/Login'
 import DstServer from 'pages/dstServer/dstServer'
 import Player from 'pages/ManagementLayout/Player'
-  
+import MusicManagement from 'pages/ManagementLayout/Music'
+import MusicPlayer from 'pages/Layout/MusicPlayer'
+
 export const managementMenu = [
   {
     path: '/management/MdList',
@@ -66,7 +68,7 @@ export const managementMenu = [
     element: <DeepseekChat />,
   },
   {
-    path:"/management/components",
+    path: '/management/components',
     title: '组件管理',
     element: <Components />,
   },
@@ -74,7 +76,12 @@ export const managementMenu = [
     path: '/management/player',
     title: '播放器',
     element: <Player />,
-  }
+  },
+  {
+    path: '/management/music',
+    title: '音乐管理',
+    element: <MusicManagement />,
+  },
 ]
 
 const routes = [
@@ -83,17 +90,26 @@ const routes = [
     element: <Layout />,
     children: [
       {
-        index: true, // 添加 index 路由
-        element: <Navigate to="/articles" replace />, // 重定向到 /articles
+        path: '/music',
+        element: <MusicPlayer />,
       },
       {
-        path:'dst',
-        children:[
+        index: true, // 添加 index 路由
+        element: (
+          <Navigate
+            to="/articles"
+            replace
+          />
+        ), // 重定向到 /articles
+      },
+      {
+        path: 'dst',
+        children: [
           {
-            path:'server',
+            path: 'server',
             element: <DstServer />,
-          }
-        ]
+          },
+        ],
       },
       {
         path: 'blog',

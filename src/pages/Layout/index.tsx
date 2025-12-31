@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TopBar from './TopBar'
 import { Box } from '@mui/system'
-import { Card, Fab, Grid, Typography } from '@mui/material'
+import { Card, Fab, Grid, Typography, Drawer, IconButton } from '@mui/material'
 import styled from '@emotion/styled'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import NavBar from './NavBar'
@@ -16,8 +16,13 @@ import { fetchRoutes } from '../../hooks/useApi'
 import KeyboardTab from '@mui/icons-material/KeyboardTab'
 import useWindowSize from 'hooks/useWindowSize'
 import MarkdownToc from 'pages/Dashboard/Articles/MarkdownToc'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import MusicPlayer from 'components/MusicPlayer'
+import MenuIcon from '@mui/icons-material/Menu'
+import TocIcon from '@mui/icons-material/Toc'
+import { PlayArrow, MusicNote, Pause } from '@mui/icons-material'
+import { AudioProvider, useAudio } from 'contexts/AudioContext'
 
 const BackgroundBar = ({ showTopBar }) => {
   const dispatch = useDispatch()
@@ -47,9 +52,16 @@ const BackgroundBar = ({ showTopBar }) => {
   )
 }
 
-const Layout = () => {
+const LayoutContent: React.FC = () => {
   const [showTopBar, setShowTopBar] = useState(false)
-  const [isMiddleCollapsed, setIsMiddleCollapsed] = useState(false) // 新增状态
+  const [isMiddleCollapsed, setIsMiddleCollapsed] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileTocOpen, setMobileTocOpen] = useState(false)
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false)
+  
+  // 使用 AudioContext
+  const { audioRef, isMusicPlaying, setIsMusicPlaying } = useAudio()
+  
   const size = useWindowSize()
   const dispatch = useDispatch()
 
@@ -58,10 +70,30 @@ const Layout = () => {
   const bingPic = useSelector((state: any) => state.bingPicSliceReducer.bingPic)
   const bingUrl = useSelector((state: any) => state.bingPicSliceReducer.bingUrl)
   const currentPic = useSelector((state: any) => state.bingPicSliceReducer.current)
- 
+
   useEffect(() => {
     fetchRoutes(dispatch)
   }, [dispatch])
+
+  // 控制音频播放/暂停
+  const toggleMusicPlay = () => {
+    const audio = audioRef.current
+    if (!audio) {
+      console.error('Audio element not found')
+      return
+    }
+
+    console.log('togglePlay', audioRef, 'isMusicPlaying:', isMusicPlaying)
+
+    if (isMusicPlaying) {
+      audio.pause()
+    } else {
+      audio.play().catch((error) => {
+        console.error('播放失败:', error)
+      })
+    }
+    setShowMusicPlayer(!showMusicPlayer)
+  }
 
   // 获取背景图片URL
   const backgroundImageUrl = bingPic?.images?.[currentPic]?.url ? `${bingUrl}${bingPic.images[currentPic].url}` : ''
@@ -73,13 +105,14 @@ const Layout = () => {
     }
 
     if (isMiddleCollapsed) {
-      return { left: '0%', middle: '0%', right: '100%' } // 折叠时隐藏左侧，右侧占满
+      return { left: '0%', middle: '0%', right: '100%' }
     }
 
     return { left: '25%', middle: '50%', right: '25%' }
   }
 
   const widths = getWidths()
+  const isMobile = size.width <= 600
 
   return (
     <Box
@@ -91,7 +124,73 @@ const Layout = () => {
         display: 'flex',
       }}
     >
-      {/* 左侧区域 - 折叠时隐藏 */}
+      {/* 移动端导航抽屉 */}
+      {isMobile && (
+        <Drawer
+          anchor="left"
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+          PaperProps={{
+            style: {
+              width: '80%',
+              maxWidth: '300px',
+              backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            },
+          }}
+        >
+          <Box
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(5px)',
+            }}
+          />
+          <Box
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              padding: '20px',
+              height: '100%',
+              overflowY: 'auto',
+            }}
+          >
+            <NavBar routes={routes} />
+          </Box>
+        </Drawer>
+      )}
+
+      {/* 移动端目录抽屉 */}
+      {isMobile && currentBlog.tocContent && (
+        <Drawer
+          anchor="right"
+          open={mobileTocOpen}
+          onClose={() => setMobileTocOpen(false)}
+          PaperProps={{
+            style: {
+              width: '80%',
+              maxWidth: '300px',
+            },
+          }}
+        >
+          <Box
+            style={{
+              padding: '20px',
+              height: '100%',
+              overflowY: 'auto',
+            }}
+          >
+            <MarkdownToc />
+          </Box>
+        </Drawer>
+      )}
+
+      {/* 左侧区域 */}
       {size.width > 600 && !isMiddleCollapsed && (
         <Box
           style={{
@@ -107,7 +206,6 @@ const Layout = () => {
               'width 0.3s ease-in-out, background-size 0.3s ease-in-out, background-position 0.3s ease-in-out',
           }}
         >
-          {/* 添加半透明遮罩层 */}
           <Box
             style={{
               position: 'absolute',
@@ -121,6 +219,7 @@ const Layout = () => {
             }}
           />
           <Box
+            className="gradient-scrollbar"
             style={{
               position: 'relative',
               zIndex: 1,
@@ -159,10 +258,11 @@ const Layout = () => {
             style={{
               width: '100%',
               minHeight: '100%',
+              padding: isMobile ? '10px' : '24px',
             }}
           >
             <Grid
-              className="pt-5"
+              className={isMobile ? 'pt-2' : 'pt-5'}
               container
               spacing={1}
             >
@@ -182,25 +282,59 @@ const Layout = () => {
             </Grid>
           </Container>
         )}
+
+        {/* 移动端浮动按钮 */}
+        {isMobile && (
+          <>
+            <Fab
+              color="primary"
+              aria-label="menu"
+              onClick={() => setMobileMenuOpen(true)}
+              style={{
+                position: 'fixed',
+                bottom: '20px',
+                left: '20px',
+                zIndex: 1000,
+              }}
+            >
+              <MenuIcon />
+            </Fab>
+
+            {currentBlog.tocContent && (
+              <Fab
+                color="secondary"
+                aria-label="toc"
+                onClick={() => setMobileTocOpen(true)}
+                style={{
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '20px',
+                  zIndex: 1000,
+                }}
+              >
+                <TocIcon />
+              </Fab>
+            )}
+          </>
+        )}
       </Box>
 
-      {/* 右侧区域 */} 
+      {/* 右侧区域 */}
       {size.width > 600 && (
         <Box
-          style={{ 
+          style={{
             width: widths.right,
             height: '100vh',
             backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : 'none',
-            backgroundSize: isMiddleCollapsed ? 'cover' : '800%', // 折叠时显示完整图片
-            backgroundPosition: isMiddleCollapsed ? 'center' : 'right center', // 折叠时居中显示
+            backgroundSize: isMiddleCollapsed ? 'cover' : '800%',
+            backgroundPosition: isMiddleCollapsed ? 'center' : 'right center',
             backgroundRepeat: 'no-repeat',
             position: 'relative',
-            borderLeft: !isMiddleCollapsed ? '1px solid rgba(0, 0, 0, 0.1)' : 'none', // 折叠时去掉左边框
+            borderLeft: !isMiddleCollapsed ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
             transition:
               'width 0.3s ease-in-out, background-size 0.3s ease-in-out, background-position 0.3s ease-in-out',
           }}
         >
-          {/* 添加半透明遮罩层 */}
           <Box
             style={{
               position: 'absolute',
@@ -208,12 +342,13 @@ const Layout = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: isMiddleCollapsed ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.85)', // 折叠时使用深色遮罩
+              backgroundColor: isMiddleCollapsed ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.85)',
               backdropFilter: isMiddleCollapsed ? 'none' : 'blur(2px)',
               transition: 'background-color 0.3s ease-in-out',
             }}
           />
           <Box
+            className="primary-scrollbar"
             style={{
               position: 'relative',
               zIndex: 1,
@@ -224,16 +359,8 @@ const Layout = () => {
               flexDirection: 'column',
             }}
           >
-            {/* 折叠时显示图片信息和导航 */}
             {isMiddleCollapsed && (
               <>
-                {/* 导航菜单 */}
-
-                {/* <Box style={{ marginBottom: '20px' }}>
-                  <NavBar routes={routes} />
-                </Box> */}
-
-                {/* 图片信息 */}
                 {bingPic?.images?.[currentPic] && (
                   <Box
                     style={{
@@ -263,19 +390,113 @@ const Layout = () => {
               </Grid>
             )}
           </Box>
+
+          <Fab
+            aria-label="music-tab"
+            onClick={toggleMusicPlay}
+            sx={{
+              position: 'absolute',
+              bottom: '100px',
+              left: '20px',
+              zIndex: 2,
+              background: isMusicPlaying
+                ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              color: 'white',
+              boxShadow: isMusicPlaying ? '0 8px 20px rgba(102, 126, 234, 0.4)' : '0 8px 20px rgba(245, 87, 108, 0.4)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              animation: isMusicPlaying ? 'pulse 2s ease-in-out infinite' : 'none',
+              '&:hover': {
+                transform: 'scale(1.1) translateY(-2px)',
+                boxShadow: isMusicPlaying
+                  ? '0 12px 28px rgba(102, 126, 234, 0.6)'
+                  : '0 12px 28px rgba(245, 87, 108, 0.6)',
+              },
+              '&:active': {
+                transform: 'scale(0.95)',
+              },
+              '@keyframes pulse': {
+                '0%, 100%': {
+                  boxShadow: '0 8px 20px rgba(102, 126, 234, 0.4)',
+                },
+                '50%': {
+                  boxShadow: '0 8px 30px rgba(102, 126, 234, 0.7)',
+                },
+              },
+            }}
+          >
+            <Box
+              sx={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {isMusicPlaying ? (
+                <>
+                  <Pause
+                    fontSize="large"
+                    sx={{
+                      animation: 'fadeIn 0.3s ease-in-out',
+                      '@keyframes fadeIn': {
+                        from: { opacity: 0, transform: 'scale(0.8)' },
+                        to: { opacity: 1, transform: 'scale(1)' },
+                      },
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      border: '2px solid rgba(255, 255, 255, 0.5)',
+                      animation: 'ripple 1.5s ease-out infinite',
+                      '@keyframes ripple': {
+                        '0%': {
+                          transform: 'scale(1)',
+                          opacity: 1,
+                        },
+                        '100%': {
+                          transform: 'scale(1.5)',
+                          opacity: 0,
+                        },
+                      },
+                    }}
+                  />
+                </>
+              ) : (
+                <MusicNote
+                  fontSize="large"
+                  sx={{
+                    animation: 'bounce 0.5s ease-in-out',
+                    '@keyframes bounce': {
+                      '0%, 100%': { transform: 'translateY(0)' },
+                      '50%': { transform: 'translateY(-5px)' },
+                    },
+                  }}
+                />
+              )}
+            </Box>
+          </Fab>
+
           <Fab
             color="primary"
             aria-label="keyboard-tab"
             onClick={() => {
               setIsMiddleCollapsed(!isMiddleCollapsed)
             }}
-            style={{
+            sx={{
               position: 'absolute',
               bottom: '20px',
               left: '20px',
               zIndex: 2,
               transform: isMiddleCollapsed ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.3s ease-in-out',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                transform: isMiddleCollapsed ? 'rotate(180deg) scale(1.1)' : 'rotate(0deg) scale(1.1)',
+              },
             }}
           >
             <KeyboardTab />
@@ -283,8 +504,94 @@ const Layout = () => {
         </Box>
       )}
 
+      {/* 移动端音乐播放按钮 */}
+      {isMobile && (
+        <Fab
+          aria-label="music-tab-mobile"
+          onClick={toggleMusicPlay}
+          sx={{
+            position: 'fixed',
+            bottom: '90px',
+            left: '20px',
+            zIndex: 1000,
+            background: isMusicPlaying
+              ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+              : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+            color: 'white',
+            boxShadow: isMusicPlaying ? '0 8px 20px rgba(102, 126, 234, 0.4)' : '0 8px 20px rgba(245, 87, 108, 0.4)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            animation: isMusicPlaying ? 'pulse 2s ease-in-out infinite' : 'none',
+            '&:hover': {
+              transform: 'scale(1.1) translateY(-2px)',
+            },
+            '@keyframes pulse': {
+              '0%, 100%': {
+                boxShadow: '0 8px 20px rgba(102, 126, 234, 0.4)',
+              },
+              '50%': {
+                boxShadow: '0 8px 30px rgba(102, 126, 234, 0.7)',
+              },
+            },
+          }}
+        >
+          <Box
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {isMusicPlaying ? (
+              <>
+                <Pause fontSize="large" />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    border: '2px solid rgba(255, 255, 255, 0.5)',
+                    animation: 'ripple 1.5s ease-out infinite',
+                    '@keyframes ripple': {
+                      '0%': {
+                        transform: 'scale(1)',
+                        opacity: 1,
+                      },
+                      '100%': {
+                        transform: 'scale(1.5)',
+                        opacity: 0,
+                      },
+                    },
+                  }}
+                />
+              </>
+            ) : (
+              <MusicNote
+                fontSize="large"
+                sx={{
+                  animation: 'bounce 0.5s ease-in-out',
+                  '@keyframes bounce': {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-5px)' },
+                  },
+                }}
+              />
+            )}
+          </Box>
+        </Fab>
+      )}
+
       {/* <BackgroundBar showTopBar={showTopBar} /> */}
     </Box>
+  )
+}
+
+const Layout: React.FC = () => {
+  return (
+    <AudioProvider>
+      <LayoutContent />
+    </AudioProvider>
   )
 }
 

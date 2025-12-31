@@ -24,6 +24,11 @@ const Routes = () => {
       <ProDataGrid
         path={'/routes/list'}
         addPath={'/routes/create'}
+        beforeSubmit={(params)=>{
+          params.isActive = Number(params.isActive);
+          params.isDeleted = Number(params.isDeleted);
+          params.parentId = Number(params.parentId);
+        }}
         actions={{
           removePath: '/routes/remove',
           editPath: '/routes/update',

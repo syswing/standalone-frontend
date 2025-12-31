@@ -74,7 +74,6 @@ const PlayButton = styled(IconButton)({
 interface Track {
   id: number
   title: string
-  artist: string
   album: string
   duration: number
   cover: string
@@ -299,7 +298,6 @@ const Player: React.FC = () => {
           const transformedPlaylist: Track[] = result.data.map((item: any, index: number) => ({
             id: index + 1,
             title: item.name?.replace(/\.(flac|mp3|wav|m4a)$/i, '') || '未知歌曲',
-            artist: item.artist || '未知艺术家',
             album: item.album || '未知专辑',
             duration: item.duration || 0,
             cover: (isDev ? 'http://localhost:7777/api' : 'https://syswing.icu/api') + item.coverUrl || 'https://picsum.photos/300/300?random=' + index,
@@ -537,12 +535,6 @@ const Player: React.FC = () => {
                           sx={{ fontWeight: 'medium' }}
                         >
                           {track.title}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                        >
-                          {track.artist} • {formatTime(track.duration)}
                         </Typography>
                       </Box>
                     </Box>

@@ -79,6 +79,8 @@ const FormDialog = React.forwardRef((props: any, ref) => {
         }
       })
 
+      props?.beforeSubmit && props.beforeSubmit(processedParams);
+
       await action({
         path: dialogParams.path,
         params: processedParams,

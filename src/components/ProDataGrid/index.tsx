@@ -144,6 +144,7 @@ export default (props) => {
       <FormDialog
         ref={dialogRef}
         refresh={() => refresh(true)}
+        beforeSubmit={props.beforeSubmit}
       />
 
       {props.addPath && (
